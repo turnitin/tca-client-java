@@ -1,0 +1,3920 @@
+openapi: 3.0.1
+info:
+  description: |
+    Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. It supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
+    Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI, by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
+    ## Integration Scope and API Key Management
+    TCA API calls must provide an API Key for authentication, so you must first have at least one integration scope associated with at least one API Key to use TCA.
+    ### Admin Console UI
+    First, login to Admin Console UI as an *Admin* user with permission to create Integration Scopes, under a tenant that is licensed to use the TCA product
+    Integration Scopes (you can create a new one, or add keys to existing)
+
+      * Click `Integrations` in the side bar --> `+ Add Integration` at top the top of the page --> Enter a name --> `Add` Button
+      API Keys
+      * Click `Integrations` in the side bar --> `Create API Key` Button next to a given Integration Scope -->
+      Enter a name --> click `Create and View button`
+      * Copy/Save the key manually or click save to clipboard button to copy it (this is the only time it will show)
+
+    ## TCA Flow
+
+      *  Register a webhook
+      *  Create a submission
+      *  Upload a file to the submission
+      *  Wait for the submission upload to process
+         * If you registered a webhook, a callback will be sent to it when upload is complete
+         * The status of the *submission* will also update to `COMPLETE`
+      *  Request a Similarity Report
+      *  Wait for similarity report to process
+         * If you registered a webhook, a callback will be sent to it when report is complete
+         * The status of the *report* will also be updated to `COMPLETE`
+      *  Request a URL with parameters to view the Similarity Report
+  title: Turnitin Core API
+  version: 1.0.220
+externalDocs:
+  description: Developer Portal Documentation page
+  url: https://developers.turnitin.com/docs
+servers:
+- url: https://{tenantName}.turnitin.com/api/v1
+  variables:
+    tenantName:
+      default: app-us
+      description: Customer tenant name
+security:
+- api_key: []
+tags:
+- description: Get license and feature information
+  name: Features
+- description: Manage acceptence of EULAs
+  name: EULA
+- description: Template exclusion
+  name: Groups
+- description: Upload files and retrieve data
+  name: Submission
+- description: Schedule and receive similarity report details
+  name: Similarity
+- description: Create and manage Webhooks
+  name: Webhook
+paths:
+  /features-enabled:
+    get:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeaturesEnabled'
+          description: List of available features
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get information about what features are allowed by the current license
+      tags:
+      - Features
+      x-accepts: application/json
+  /eula/{version_id}:
+    get:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The EULA version ID (or `latest`)
+        example: latest
+        explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The desired language of the specified EULA version
+        example: en-US
+        explode: true
+        in: query
+        name: lang
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EulaVersion'
+          description: Version data. A null value for valid_until indicates no expiration
+            of the EULA version
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Gets information about a particular EULA version
+      tags:
+      - EULA
+      x-accepts: application/json
+  /eula/{version_id}/accept:
+    post:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The EULA version ID (or `latest`)
+        example: latest
+        explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EulaAcceptRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EulaAcceptListItem'
+          description: A EULA acceptence response
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Accepts a particular EULA version on behalf of an external user
+      tags:
+      - EULA
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /eula/{version_id}/accept/{user_id}:
+    get:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The EULA version ID (or `latest`)
+        example: latest
+        explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The user associated with the EULA status
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EulaAcceptListItem'
+                type: array
+          description: Array of EULA acceptence responses for the specified version
+            (one per language)
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Queries the acceptences of a particular EULA version on behalf of an
+        external user
+      tags:
+      - EULA
+      x-accepts: application/json
+  /eula/{version_id}/view:
+    get:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The EULA version ID (or `latest`)
+        example: latest
+        explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The desired language of the specified EULA version
+        example: en-US
+        explode: true
+        in: query
+        name: lang
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain; charset=utf-8:
+              schema:
+                type: string
+          description: HTML Text of the desired EULA version
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/html:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/html:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Gets the text of a particular EULA version
+      tags:
+      - EULA
+      x-accepts: application/html,text/plain; charset=utf-8
+  /submissions:
+    post:
+      operationId: CreateSubmission
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionBase'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleSubmissionResponse'
+          description: Submission successfully created
+          links:
+            UploadSubmittedFileLink:
+              operationId: UploadSubmittedFile
+              parameters:
+                id: $response.body#/id
+            GetSubmiddionDetailsLink:
+              operationId: GetSubmiddionDetails
+              parameters:
+                id: $response.body#/id
+            DeleteSubmissionLink:
+              operationId: DeleteSubmission
+              parameters:
+                id: $response.body#/id
+            RecoverSubmissionLink:
+              operationId: RecoverSubmission
+              parameters:
+                id: $response.body#/id
+            GetSimilarityReportResultsLink:
+              operationId: GetSimilarityReportResults
+              parameters:
+                id: $response.body#/id
+            RequestSimilarityReportLink:
+              operationId: RequestSimilarityReport
+              parameters:
+                id: $response.body#/id
+            GetSimilarityReportUrlLink:
+              operationId: GetSimilarityReportUrl
+              parameters:
+                id: $response.body#/id
+            RequestSimilarityReportPdfLink:
+              operationId: RequestSimilarityReportPdf
+              parameters:
+                id: $response.body#/id
+            DownloadSimilarityReportPdfLink:
+              operationId: DownloadSimilarityReportPdf
+              parameters:
+                id: $response.body#/id
+            GetSimilarityReportPdfStatusLink:
+              operationId: GetSimilarityReportPdfStatus
+              parameters:
+                id: $response.body#/id
+            GetIndexStatusLink:
+              operationId: GetIndexStatus
+              parameters:
+                id: $response.body#/id
+            IndexSubmissionLink:
+              operationId: IndexSubmission
+              parameters:
+                id: $response.body#/id
+            SubmissionCompleteWebhookLink:
+              operationId: SubmissionCompleteWebhook
+              parameters:
+                id: $request.body#/id
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Create a new Submission
+      tags:
+      - Submission
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /submissions/{id}/original:
+    put:
+      operationId: UploadSubmittedFile
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          *Must be 'binary/octet-stream'
+        explode: false
+        in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          *must include the "filename" parameter, e.g. `inline; filename="MyFile.docx"`. To support UTF-8 filenames, you must URL encode the header
+        explode: false
+        in: header
+        name: Content-Disposition
+        required: true
+        schema:
+          example: inline; filename="MyFile.docx"
+          type: string
+        style: simple
+      requestBody:
+        content:
+          binary/octet-stream:
+            schema:
+              format: binary
+              type: object
+        description: the user's submitted file
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+          description: |
+            Success message indicating successful PUT request for a submission upload
+          links:
+            SubmissionCompleteWebhookLink:
+              operationId: SubmissionCompleteWebhook
+              parameters:
+                id: $request.body#/id
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionSizeError'
+          description: Invalid submission file size, Submission file must be > than
+            0 MB and <= to 100 MB
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Upload Submitted File
+      tags:
+      - Submission
+      x-codegen-request-body-name: file
+      x-contentType: binary/octet-stream
+      x-accepts: application/json
+  /submissions/{id}:
+    delete:
+      operationId: DeleteSubmission
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          Accepts true or false indicating either hard or soft delete. A soft delete removes the associated submission report/index and changes the saved submission state to DELETED. A hard deletion completely removes the submission information from Panda and TCA and removes the associated report/index, which can not be recovered.
+        explode: true
+        in: query
+        name: hard
+        required: false
+        schema:
+          default: "false"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+          description: |
+            Success message indicating successful Delete request for a submission
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "404":
+          content: {}
+          description: Submission not found for {id}
+        "409":
+          content: {}
+          description: Deletion error
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Deletes a submission and associated similarity report.
+      tags:
+      - Submission
+      x-accepts: application/json
+    get:
+      operationId: GetSubmiddionDetails
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+          description: Successfully retrieved Submission
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get Submission Details
+      tags:
+      - Submission
+      x-accepts: application/json
+  /submissions/{id}/recover:
+    put:
+      operationId: RecoverSubmission
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleSubmissionResponse'
+          description: Successfully recovered Submission
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Recover a soft deleted submission
+      tags:
+      - Submission
+      x-accepts: application/json
+  /submissions/{id}/similarity:
+    get:
+      operationId: GetSimilarityReportResults
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimilarityMetadata'
+          description: Successfully retrieved Similarity info
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get Similarity Report Results
+      tags:
+      - Similarity
+      x-accepts: application/json
+    put:
+      operationId: RequestSimilarityReport
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimilarityPutRequest'
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+          description: |
+            Success message indicating successful scheduling of Similarity Report generation
+          links:
+            SimilarityCompleteWebhookLink:
+              operationId: SimilarityCompleteWebhook
+              parameters:
+                id: '{request.body#/id}'
+            SimilarityUpdatedWebhookLink:
+              operationId: SimilarityUpdatedWebhook
+              parameters:
+                id: '{request.body#/id}'
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Request Similarity Report generation
+      tags:
+      - Similarity
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /submissions/{id}/viewer-url:
+    post:
+      operationId: GetSimilarityReportUrl
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimilarityViewerUrlSettings'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimilarityViewerUrlResponse'
+          description: |
+            Success message indicating URL for launching similarity report
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Returns a URL to access Cloud Viewer
+      tags:
+      - Similarity
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /submissions/{id}/similarity/pdf:
+    post:
+      operationId: RequestSimilarityReportPdf
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestPdfResponse'
+          description: |
+            Success message indicating ID for the PDF generation request
+          links:
+            DownloadSimilarityReportPdfLink:
+              operationId: DownloadSimilarityReportPdf
+              parameters:
+                pdf_id: $response.body#/id
+            GetSimilarityReportPdfStatusLink:
+              operationId: GetSimilarityReportPdfStatus
+              parameters:
+                pdf_id: $response.body#/id
+            PDFStatusWebhookLink:
+              operationId: PDFStatusWebhook
+              parameters:
+                id: $response.body#/id
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "404":
+          content: {}
+          description: Submission not found for {id}
+        "409":
+          content: {}
+          description: A Similarity Report is already generating for this submission
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Request Pdf download and returns the Pdf Id
+      tags:
+      - Similarity
+      x-accepts: application/json
+  /submissions/{id}/similarity/pdf/{pdf_id}:
+    get:
+      operationId: DownloadSimilarityReportPdf
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)
+        explode: false
+        in: path
+        name: pdf_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/pdf:
+              schema:
+                format: binary
+                type: string
+          description: StreamingResponseBody, Pdf binary
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfStatusResponse'
+          description: |
+            Status message indicating processing status for requested PDF
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "404":
+          content: {}
+          description: Submission not found for {id} or Pdf not found
+        "409":
+          content: {}
+          description: A Similarity Report is already generating for this submission
+            or Failed to generate PDF
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: GET download pdf
+      tags:
+      - Similarity
+      x-accepts: application/json
+  /submissions/{id}/similarity/pdf/{pdf_id}/status:
+    get:
+      operationId: GetSimilarityReportPdfStatus
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)
+        explode: false
+        in: path
+        name: pdf_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfStatusResponse'
+          description: |
+            Status message indicating processing status for requested PDF
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfStatusResponse'
+          description: |
+            Status message indicating processing status for requested PDF
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "404":
+          content: {}
+          description: Submission not found for {id} or Pdf not found
+        "409":
+          content: {}
+          description: A Similarity Report is already generating for this submission
+            or Failed to generate PDF
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: GET pdf download status
+      tags:
+      - Similarity
+      x-accepts: application/json
+  /submissions/{id}/index:
+    get:
+      operationId: GetIndexStatus
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndexStateSettings'
+          description: Index state of submission
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Submission has not been completed yet
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Return index state of submission
+      tags:
+      - Index
+      x-accepts: application/json
+    put:
+      operationId: IndexSubmission
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Submission ID (returned upon a successful POST to /submissions)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndexStateSettings'
+          description: Successfully indexed submission
+        "400":
+          content: {}
+          description: Request is malformed or missing required data
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Index and return index state of submission
+      tags:
+      - Index
+      x-accepts: application/json
+  /webhooks:
+    get:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Webhook'
+                type: array
+          description: Success
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: List registered Webhook endpoints
+      tags:
+      - Webhook
+      x-accepts: application/json
+    post:
+      callbacks:
+        SUBMISSION_COMPLETE:
+          '{$request.body#/url}':
+            post:
+              operationId: SubmissionCompleteWebhook
+              parameters:
+              - description: An HMAC256 signature of the request body, using the signing_secret
+                  supplied when registering the webhook
+                explode: false
+                in: header
+                name: X-Turnitin-Signature
+                required: true
+                schema:
+                  type: string
+                style: simple
+              - description: The name of the event type for this request
+                explode: false
+                in: header
+                name: X-Turnitin-EventType
+                required: true
+                schema:
+                  type: string
+                style: simple
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      allOf:
+                      - $ref: '#/components/schemas/Submission'
+                      - properties:
+                          metadata:
+                            properties:
+                              custom:
+                                type: string
+                            type: object
+                        type: object
+                required: true
+              responses:
+                "200":
+                  description: success
+              x-callback-request: true
+        SIMILARITY_COMPLETE:
+          '{$request.body#/url}':
+            post:
+              operationId: SimilarityCompleteWebhook
+              parameters:
+              - description: An HMAC256 signature of the request body, using the signing_secret
+                  supplied when registering the webhook
+                explode: false
+                in: header
+                name: X-Turnitin-Signature
+                required: true
+                schema:
+                  type: string
+                style: simple
+              - description: The name of the event type for this request
+                explode: false
+                in: header
+                name: X-Turnitin-EventType
+                required: true
+                schema:
+                  type: string
+                style: simple
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      allOf:
+                      - $ref: '#/components/schemas/SimilarityMetadata'
+                      - properties:
+                          metadata:
+                            properties:
+                              custom:
+                                type: string
+                            type: object
+                        type: object
+                required: true
+              responses:
+                "200":
+                  description: success
+              x-callback-request: true
+        SIMILARITY_UPDATED:
+          '{$request.body#/url}':
+            post:
+              operationId: SimilarityUpdatedWebhook
+              parameters:
+              - description: An HMAC256 signature of the request body, using the signing_secret
+                  supplied when registering the webhook
+                explode: false
+                in: header
+                name: X-Turnitin-Signature
+                required: true
+                schema:
+                  type: string
+                style: simple
+              - description: The name of the event type for this request
+                explode: false
+                in: header
+                name: X-Turnitin-EventType
+                required: true
+                schema:
+                  type: string
+                style: simple
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      allOf:
+                      - $ref: '#/components/schemas/SimilarityMetadata'
+                      - properties:
+                          metadata:
+                            properties:
+                              custom:
+                                type: string
+                            type: object
+                        type: object
+                required: true
+              responses:
+                "200":
+                  description: success
+              x-callback-request: true
+        PDF_STATUS:
+          '{$request.body#/url}':
+            post:
+              operationId: PDFStatusWebhook
+              parameters:
+              - description: An HMAC256 signature of the request body, using the signing_secret
+                  supplied when registering the webhook
+                explode: false
+                in: header
+                name: X-Turnitin-Signature
+                required: true
+                schema:
+                  type: string
+                style: simple
+              - description: The name of the event type for this request
+                explode: false
+                in: header
+                name: X-Turnitin-EventType
+                required: true
+                schema:
+                  type: string
+                style: simple
+              requestBody:
+                $ref: '#/components/requestBodies/inline_object'
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        status:
+                          description: The requesting Pdf status
+                          enum:
+                          - SUCCESS
+                          - PENDING
+                          - FAILED
+                          type: string
+                        id:
+                          description: the PDF ID
+                          type: string
+                        submission_id:
+                          description: the associated submission ID
+                          type: string
+                        metadata:
+                          $ref: '#/components/schemas/_webhooks_metadata'
+                      type: object
+                required: true
+              responses:
+                "200":
+                  description: success
+              x-callback-request: true
+        GROUP_ATTACHMENT_COMPLETE:
+          '{$request.body#/url}':
+            post:
+              operationId: GroupAttachmentCompleteWebhook
+              parameters:
+              - description: An HMAC256 signature of the request body, using the signing_secret
+                  supplied when registering the webhook
+                explode: false
+                in: header
+                name: X-Turnitin-Signature
+                required: true
+                schema:
+                  type: string
+                style: simple
+              - description: The name of the event type for this request
+                explode: false
+                in: header
+                name: X-Turnitin-EventType
+                required: true
+                schema:
+                  type: string
+                style: simple
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/GroupAttachmentResponse'
+                required: true
+              responses:
+                "200":
+                  description: success
+              x-callback-request: true
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookWithSecret'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: Success
+          links:
+            GetWebhookLink:
+              operationId: GetWebhook
+              parameters:
+                id: $response.body#/id
+            DeleteWebhookLink:
+              operationId: DeleteWebhook
+              parameters:
+                id: $response.body#/id
+            UpdateWebhookLink:
+              operationId: UpdateWebhook
+              parameters:
+                id: $response.body#/id
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Register a Webhook endpoint
+      tags:
+      - Webhook
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /webhooks/{id}:
+    delete:
+      operationId: DeleteWebhook
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          content: {}
+          description: Success
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Delete Webhook endpoint
+      tags:
+      - Webhook
+      x-accepts: application/json
+    get:
+      operationId: GetWebhook
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: Success
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get Webhook endpoint info
+      tags:
+      - Webhook
+      x-accepts: application/json
+    patch:
+      operationId: UpdateWebhook
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookPathRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: Success
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Update Webhook endpoint info
+      tags:
+      - Webhook
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /groups/{group_id}:
+    get:
+      operationId: GetGroup
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregateGroup'
+          description: Successfully get AggregateGroup
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get group, group context and group context owners info
+      tags:
+      - Groups
+      x-accepts: application/json
+    put:
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AggregateGroup'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregateGroup'
+          description: Successfully upssert group, group context and group context
+            owners
+          links:
+            GetGroupLink:
+              operationId: GetGroup
+              parameters:
+                group_id: $response.body#/id
+            GetGroupAttachmentsLink:
+              operationId: GetGroupAttachments
+              parameters:
+                group_id: $response.body#/id
+            AddGroupAttachmentLink:
+              operationId: AddGroupAttachment
+              parameters:
+                group_id: $response.body#/id
+            UploadGroupAttachmentLink:
+              operationId: UploadGroupAttachment
+              parameters:
+                group_id: $response.body#/id
+            GetGroupAttachmentLink:
+              operationId: GetGroupAttachment
+              parameters:
+                group_id: $response.body#/id
+            DeleteGroupAttachmentLink:
+              operationId: DeleteGroupAttachment
+              parameters:
+                group_id: $response.body#/id
+            UpdateGroupAttachmentLink:
+              operationId: UpdateGroupAttachment
+              parameters:
+                group_id: $response.body#/id
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: upsert group, group context and group context owners info
+      tags:
+      - Groups
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /groups/{group_id}/attachments:
+    get:
+      operationId: GetGroupAttachments
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Successfully get attachments
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get all attachments
+      tags:
+      - Groups
+      x-accepts: application/json
+    post:
+      operationId: AddGroupAttachment
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddGroupAttachmentRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddGroupAttachmentResponse'
+          description: Successfully add attachment
+          links:
+            UploadGroupAttachmentLink:
+              operationId: UploadGroupAttachment
+              parameters:
+                attach_id: $response.body#/id
+            GetGroupAttachmentLink:
+              operationId: GetGroupAttachment
+              parameters:
+                attach_id: $response.body#/id
+            DeleteGroupAttachmentLink:
+              operationId: DeleteGroupAttachment
+              parameters:
+                attach_id: $response.body#/id
+            UpdateGroupAttachmentLink:
+              operationId: UpdateGroupAttachment
+              parameters:
+                attach_id: $response.body#/id
+            GroupAttachmentCompleteWebhookLink:
+              operationId: GroupAttachmentCompleteWebhook
+              parameters:
+                id: $response.body#/id
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Add attachment to a group. will create a group if it does not exist.
+      tags:
+      - Groups
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+  /groups/{group_id}/attachments/{attach_id}/original:
+    put:
+      operationId: UploadGroupAttachment
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The Group ID (required to already exist)
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The attachment ID (returned from a successful group attachment request)
+        explode: false
+        in: path
+        name: attach_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          *must include the "filename" parameter, e.g. `inline; filename="MyFile.docx"`
+        explode: false
+        in: header
+        name: Content-Disposition
+        required: true
+        schema:
+          example: inline; filename="MyFile.docx"
+          type: string
+        style: simple
+      requestBody:
+        content:
+          binary/octet-stream:
+            schema:
+              format: binary
+              type: object
+        description: the attachment file
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+          description: |
+            Success message indicating successful PUT request for a submission upload
+          links:
+            GroupAttachmentCompleteWebhookLink:
+              operationId: GroupAttachmentCompleteWebhook
+              parameters:
+                id: request.body#/attach_id
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionSizeError'
+          description: Invalid submission file size, Submission file must be > than
+            0 MB and <= to 100 MB
+        "403":
+          content: {}
+          description: Not properly authenticated
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitError'
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Upload Submitted File
+      tags:
+      - Groups
+      x-codegen-request-body-name: file
+      x-contentType: binary/octet-stream
+      x-accepts: application/json
+  /groups/{group_id}/attachments/{attach_id}:
+    delete:
+      operationId: DeleteGroupAttachment
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The attachment ID (returned from a successful group attachment request)
+        explode: false
+        in: path
+        name: attach_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          content: {}
+          description: Attachment successfully deleted
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Hard delete group attachment
+      tags:
+      - Groups
+      x-accepts: application/json
+    get:
+      operationId: GetGroupAttachment
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The attachment ID (returned from a successful group attachment request)
+        explode: false
+        in: path
+        name: attach_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupAttachmentResponse'
+          description: Successfully get attachment
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Get group attachment
+      tags:
+      - Groups
+      x-accepts: application/json
+    patch:
+      operationId: UpdateGroupAttachment
+      parameters:
+      - description: a human readable string representing the type of integration
+          being used
+        example: myintegration
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: the version of the integration platform being used
+        example: v1.0.2
+        explode: false
+        in: header
+        name: X-Turnitin-Integration-Version
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: group_id
+        explode: false
+        in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: |
+          The attachment ID (returned from a successful group attachment request)
+        explode: false
+        in: path
+        name: attach_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddGroupAttachmentRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupAttachmentResponse'
+          description: Successfully get attachment
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: An Error Occurred
+      summary: Patch a group attachment
+      tags:
+      - Groups
+      x-codegen-request-body-name: data
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  parameters:
+    IntegrationFamilyHeader:
+      description: a human readable string representing the type of integration being
+        used
+      example: myintegration
+      explode: false
+      in: header
+      name: X-Turnitin-Integration-Name
+      required: true
+      schema:
+        type: string
+      style: simple
+    IntegrationVersionHeader:
+      description: the version of the integration platform being used
+      example: v1.0.2
+      explode: false
+      in: header
+      name: X-Turnitin-Integration-Version
+      required: true
+      schema:
+        type: string
+      style: simple
+    WebhookSignatureHeader:
+      description: An HMAC256 signature of the request body, using the signing_secret
+        supplied when registering the webhook
+      explode: false
+      in: header
+      name: X-Turnitin-Signature
+      required: true
+      schema:
+        type: string
+      style: simple
+    WebhookEventTypeHeader:
+      description: The name of the event type for this request
+      explode: false
+      in: header
+      name: X-Turnitin-EventType
+      required: true
+      schema:
+        type: string
+      style: simple
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+  responses:
+    ErrorResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: An Error Occurred
+    GetPdfStatusResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/PdfStatusResponse'
+      description: |
+        Status message indicating processing status for requested PDF
+    RateLimitErrorResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/RateLimitError'
+      description: |
+        Too many requests have been made in a short amount of time, please wait for
+        a bit a try again.
+    RequestPdfResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/RequestPdfResponse'
+      description: |
+        Success message indicating ID for the PDF generation request
+    SimilaritySuccessMessage:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/SuccessMessage'
+      description: |
+        Success message indicating successful scheduling of Similarity Report generation
+    SimilarityViewerUrlResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/SimilarityViewerUrlResponse'
+      description: |
+        Success message indicating URL for launching similarity report
+    SubmissionDeleteSuccessMessage:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/SuccessMessage'
+      description: |
+        Success message indicating successful Delete request for a submission
+    SubmissionSizeErrorResponse:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/SubmissionSizeError'
+      description: Invalid submission file size, Submission file must be > than 0
+        MB and <= to 100 MB
+    SubmissionSuccessMessage:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/SuccessMessage'
+      description: |
+        Success message indicating successful PUT request for a submission upload
+  schemas:
+    SubmissionBase:
+      description: |
+        A Submission is the base object on which other services (such as similarity) are offered. In order to use other services a Submission must first be created and successfully process, then other service objects can be created.
+      example:
+        owner: owner
+        submitter: submitter
+        metadata:
+          submitter:
+            id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          custom: '{"Hello": "data"}'
+          original_submitted_time: 2000-01-23T04:56:07.000+00:00
+          owners:
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          group_context:
+            name: name
+            owners:
+            - id: id
+              given_name: given_name
+              family_name: family_name
+              email: email
+            - id: id
+              given_name: given_name
+              family_name: family_name
+              email: email
+            id: id
+          group:
+            name: name
+            id: id
+            type: ASSIGNMENT
+        extract_text_only: true
+        submitter_default_permission_set: INSTRUCTOR
+        eula:
+          accepted_timestamp: 2000-01-23T04:56:07.000+00:00
+          language: en-US
+          version: latest
+        title: title
+        owner_default_permission_set: INSTRUCTOR
+      properties:
+        owner:
+          description: ID of the owning user
+          maxLength: 132
+          type: string
+        owner_default_permission_set:
+          description: Default viewer permission set, accepts INSTRUCTOR, LEARNER,
+            EDITOR, USER, APPLICANT, ADMINISTRATOR, UNDEFINED
+          enum:
+          - INSTRUCTOR
+          - LEARNER
+          - EDITOR
+          - USER
+          - APPLICANT
+          - ADMINISTRATOR
+          - UNDEFINED
+          type: string
+        title:
+          description: the title of the submission
+          maxLength: 500
+          type: string
+        submitter:
+          description: (optional) ID of the submitting user, if different from the
+            owning user
+          maxLength: 132
+          type: string
+        submitter_default_permission_set:
+          description: Default submitter permission set, accepts INSTRUCTOR, LEARNER,
+            EDITOR, USER, APPLICANT, ADMINISTRATOR, UNDEFINED
+          enum:
+          - INSTRUCTOR
+          - LEARNER
+          - EDITOR
+          - USER
+          - APPLICANT
+          - ADMINISTRATOR
+          - UNDEFINED
+          type: string
+        eula:
+          $ref: '#/components/schemas/Eula'
+        metadata:
+          $ref: '#/components/schemas/SubmissionBase_metadata'
+        extract_text_only:
+          description: (optional) indicates if the submission should be treated as
+            a text only submission. A text only submission cannot generate full reports
+            or be viewed in the viewer, but can use the index only endpoint to be
+            indexed
+          type: boolean
+      type: object
+    Group:
+      example:
+        name: name
+        id: id
+        type: ASSIGNMENT
+      properties:
+        id:
+          description: |
+            (required)
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - ASSIGNMENT
+          - FOLDER
+          type: string
+      type: object
+    AggregateGroup:
+      example:
+        name: name
+        due_date: 2000-01-23
+        report_generation: IMMEDIATELY
+        id: id
+        group_context:
+          name: name
+          owners:
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          id: id
+        type: ASSIGNMENT
+      properties:
+        id:
+          description: |
+            (required)
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - ASSIGNMENT
+          - FOLDER
+          type: string
+        group_context:
+          $ref: '#/components/schemas/GroupContext'
+        due_date:
+          description: due date for the group
+          format: date
+          type: string
+        report_generation:
+          enum:
+          - IMMEDIATELY
+          - IMMEDIATELY_AND_DUE_DATE
+          type: string
+      type: object
+    GroupContext:
+      example:
+        name: name
+        owners:
+        - id: id
+          given_name: given_name
+          family_name: family_name
+          email: email
+        - id: id
+          given_name: given_name
+          family_name: family_name
+          email: email
+        id: id
+      properties:
+        id:
+          description: |
+            (required)
+          type: string
+        name:
+          type: string
+        owners:
+          items:
+            $ref: '#/components/schemas/Users'
+          type: array
+      type: object
+    Users:
+      example:
+        id: id
+        given_name: given_name
+        family_name: family_name
+        email: email
+      properties:
+        id:
+          description: |
+            (required)
+          type: string
+        family_name:
+          type: string
+        given_name:
+          type: string
+        email:
+          format: email
+          type: string
+      type: object
+    EulaVersion:
+      example:
+        valid_until: 2000-01-23T04:56:07.000+00:00
+        valid_from: 2000-01-23T04:56:07.000+00:00
+        available_languages:
+        - ar-SA
+        - ar-SA
+        version: version
+        url: url
+      properties:
+        version:
+          description: |
+            The unique name of the EULA Version
+          type: string
+        valid_from:
+          description: |
+            The starting date indicating when acceptence of this EULA is considered valid
+          format: date-time
+          type: string
+        valid_until:
+          description: |
+            The ending date indicating when acceptence of this EULA is no longer valid
+          format: date-time
+          nullable: true
+          type: string
+        url:
+          description: |
+            The url where the corresponding EULA page can be found
+          type: string
+        available_languages:
+          description: |
+            The languages (instances) of this version. 21 language locales are currently supported.
+          items:
+            enum:
+            - ar-SA
+            - cs-CZ
+            - da-DK
+            - de-DE
+            - el-GR
+            - en-US
+            - es-MX
+            - fi-FI
+            - fr-FR
+            - it-IT
+            - ja-JP
+            - ko-KR
+            - nb-NO
+            - nl-NL
+            - pl-PL
+            - pt-BR
+            - ro-RO
+            - ru-RU
+            - sv-SE
+            - tr-TR
+            - vi-VN
+            - zh-CN
+            - zh-TW
+            type: string
+          type: array
+      type: object
+    EulaAcceptRequest:
+      example:
+        accepted_timestamp: 2000-01-23T04:56:07.000+00:00
+        user_id: user_id
+        language: language
+        version: version
+      properties:
+        user_id:
+          description: |
+            The unique id of the user in the external system
+          type: string
+        accepted_timestamp:
+          description: |
+            The timestamp marking when the EULA was accepted
+          format: date-time
+          type: string
+        language:
+          description: |
+            The language code for which language instance of the EULA version was accepted
+          type: string
+        version:
+          description: |
+            The unique name of the EULA Version
+          type: string
+      type: object
+    FeaturesEnabled:
+      example:
+        similarity:
+          viewer_modes:
+            all_sources: true
+            match_overview: true
+          generation_settings:
+            search_repositories:
+            - INTERNET
+            - INTERNET
+            submission_auto_excludes: true
+          view_settings:
+            exclude_crossref_posted_content: true
+            exclude_custom_sections: true
+            exclude_abstract: true
+            exclude_small_matches: true
+            exclude_publications: true
+            exclude_preprints: true
+            exclude_internet: true
+            exclude_methods: true
+            exclude_citations: true
+            exclude_quotes: true
+            exclude_submitted_works: true
+            exclude_bibliography: true
+            exclude_crossref: true
+        access_options:
+        - Native
+        - Native
+        product_name: product_name
+        tenant:
+          require_eula: true
+      properties:
+        similarity:
+          $ref: '#/components/schemas/FeaturesSimilarity'
+        tenant:
+          $ref: '#/components/schemas/FeaturesTenant'
+        product_name:
+          type: string
+        access_options:
+          items:
+            enum:
+            - Native
+            - CORE_API
+            - Draft Coach
+            type: string
+          type: array
+      type: object
+    EulaAcceptListItem:
+      example:
+        accepted_timestamp: 2000-01-23T04:56:07.000+00:00
+        user_id: user_id
+        language: language
+        version: version
+      properties:
+        user_id:
+          description: |
+            The unique id of the user in the external system
+          type: string
+        accepted_timestamp:
+          description: |
+            The timestamp marking when the EULA was accepted
+          format: date-time
+          type: string
+        language:
+          description: |
+            The language code for which language instance of the EULA version was accepted
+          type: string
+        version:
+          description: |
+            The unique name of the EULA Version
+          type: string
+      type: object
+    SimpleSubmissionResponse:
+      allOf:
+      - $ref: '#/components/schemas/SimpleSubmissionResponse_allOf'
+    Submission:
+      allOf:
+      - $ref: '#/components/schemas/Submission_allOf'
+    SimilarityPutRequest:
+      example:
+        indexing_settings:
+          add_to_index: true
+        generation_settings:
+          search_repositories:
+          - INTERNET
+          - INTERNET
+          submission_auto_excludes:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          auto_exclude_self_matching_scope: ALL
+          priority: true
+        view_settings:
+          exclude_crossref_posted_content: true
+          exclude_custom_sections: true
+          exclude_abstract: true
+          exclude_small_matches: 0
+          exclude_publications: true
+          exclude_preprints: true
+          exclude_internet: true
+          exclude_methods: true
+          exclude_citations: true
+          exclude_quotes: true
+          exclude_submitted_works: true
+          exclude_bibliography: true
+          exclude_crossref: true
+      properties:
+        indexing_settings:
+          $ref: '#/components/schemas/IndexingSettings'
+        generation_settings:
+          $ref: '#/components/schemas/SimilarityGenerationSettings'
+        view_settings:
+          $ref: '#/components/schemas/SimilarityViewSettings'
+      required:
+      - generation_settings
+      type: object
+    SimilarityMetadata:
+      allOf:
+      - $ref: '#/components/schemas/SimilarityScoreData'
+      - $ref: '#/components/schemas/SimilarityMetadata_allOf'
+    SimilarityOverview:
+      properties:
+        submission_id:
+          type: string
+        overall_match_percentage:
+          type: number
+        submission_text:
+          type: string
+        match_aggregates:
+          items:
+            $ref: '#/components/schemas/SimilarityOverviewMatchAggregate'
+          type: array
+      type: object
+    SimilarityOverviewMatchAggregate:
+      properties:
+        source_type:
+          type: string
+        description:
+          type: string
+        percent:
+          type: number
+        aggregate_id:
+          type: string
+        match_sources:
+          items:
+            $ref: '#/components/schemas/SimilarityOverviewMatchSource'
+          type: array
+      type: object
+    SimilarityOverviewMatchSource:
+      properties:
+        source_type:
+          type: string
+        institution_name:
+          type: string
+        description:
+          type: string
+        download_date:
+          type: string
+        submitted_date:
+          type: string
+        link:
+          type: string
+        source_id:
+          type: string
+        submission_id:
+          type: string
+        percent:
+          type: number
+        visibility:
+          type: string
+        match_groups:
+          items:
+            $ref: '#/components/schemas/SimilarityOverviewMatchGroup'
+          type: array
+      type: object
+    SimilarityOverviewMatchGroup:
+      properties:
+        glimpse_id:
+          type: string
+        match_segments:
+          items:
+            items:
+              type: number
+            type: array
+          type: array
+      type: object
+    SimilarityViewerUrlSettings:
+      example:
+        sidebar:
+          default_mode: similarity
+        similarity:
+          modes:
+            all_sources: true
+            match_overview: true
+          view_settings:
+            save_changes: true
+        author_metadata_override:
+          given_name: given_name
+          family_name: family_name
+        viewer_user_id: viewer_user_id
+        viewer_permissions:
+          may_view_document_details_panel: true
+          may_view_sections_exclusion_panel: true
+          may_view_match_submission_info: true
+          may_view_flags_panel: true
+          may_view_submission_full_source: true
+        eula:
+          accepted_timestamp: 2000-01-23T04:56:07.000+00:00
+          language: en-US
+          version: latest
+        locale: ar-SA
+        viewer_default_permission_set: viewer_default_permission_set
+      properties:
+        author_metadata_override:
+          $ref: '#/components/schemas/AuthorMetadataOverride'
+        viewer_user_id:
+          description: viewer's user ID
+          type: string
+        locale:
+          description: two character locale language setting (e.g. 'en' or 'de') or
+            full value
+          enum:
+          - ar-SA
+          - cs-CZ
+          - de-DE
+          - el-GR
+          - en-US
+          - es-MX
+          - fi-FI
+          - fr-FR
+          - it-IT
+          - ja-JP
+          - ko-KR
+          - nl-NL
+          - pl-PL
+          - pt-BR
+          - ro-RO
+          - ru-RU
+          - sv-SE
+          - tr-TR
+          - vi-VN
+          - zh-CN
+          - zh-TW
+          type: string
+        viewer_default_permission_set:
+          description: Default viewer permission set, accepts INSTRUCTOR, LEARNER,
+            EDITOR, USER, APPLICANT, ADMINISTRATOR, UNDEFINED
+          type: string
+        viewer_permissions:
+          $ref: '#/components/schemas/ViewerPermissions'
+        eula:
+          $ref: '#/components/schemas/Eula'
+        sidebar:
+          $ref: '#/components/schemas/Sidebar'
+        similarity:
+          $ref: '#/components/schemas/SimilaritySettings'
+      type: object
+    SimilaritySettings:
+      example:
+        modes:
+          all_sources: true
+          match_overview: true
+        view_settings:
+          save_changes: true
+      properties:
+        modes:
+          $ref: '#/components/schemas/SimilaritySettings_modes'
+        view_settings:
+          $ref: '#/components/schemas/SimilaritySettings_view_settings'
+      type: object
+    Sidebar:
+      example:
+        default_mode: similarity
+      properties:
+        default_mode:
+          description: |
+            The default mode shown in the sidebar panel. The selected mode must be enabled in the tenant's license, request parameter, as well as the viewer's permission. The default mode is similarity.
+          enum:
+          - similarity
+          - flags
+          - documentDetails
+          - sections_exclusion
+          type: string
+      type: object
+    ViewerPermissions:
+      example:
+        may_view_document_details_panel: true
+        may_view_sections_exclusion_panel: true
+        may_view_match_submission_info: true
+        may_view_flags_panel: true
+        may_view_submission_full_source: true
+      properties:
+        may_view_submission_full_source:
+          description: Optional individual permission which override the default permission
+            set.
+          type: boolean
+        may_view_match_submission_info:
+          description: Optional individual permission which override the default permission
+            set.
+          type: boolean
+        may_view_flags_panel:
+          description: Optional individual permission which override the default permission
+            set
+          type: boolean
+        may_view_document_details_panel:
+          description: Optional individual permission which override the default permission
+            set
+          type: boolean
+        may_view_sections_exclusion_panel:
+          description: Optional individual permission which override the default permission
+            set
+          type: boolean
+      type: object
+    SimilarityViewerUrlResponse:
+      example:
+        viewer_url: http://example.com/aeiou
+      properties:
+        viewer_url:
+          description: URL to be used to access Cloud Viewer visualization of similarity
+            report matches
+          format: url
+          type: string
+      type: object
+    RequestPdfResponse:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          description: The Pdf ID
+          format: uuid
+          type: string
+      type: object
+    PdfStatusResponse:
+      example:
+        status: SUCCESS
+      properties:
+        status:
+          description: The requesting Pdf status
+          enum:
+          - SUCCESS
+          - PENDING
+          - FAILED
+          type: string
+      type: object
+    IndexStateSettings:
+      example:
+        is_indexed: true
+      properties:
+        is_indexed:
+          description: |
+            If true, is_indexed displays the index state of submission.
+          type: boolean
+      type: object
+    WebhookWithSecret:
+      allOf:
+      - $ref: '#/components/schemas/WebhookWithSecret_allOf'
+      - $ref: '#/components/schemas/WebhookBase'
+    Webhook:
+      allOf:
+      - $ref: '#/components/schemas/Webhook_allOf'
+      - $ref: '#/components/schemas/WebhookBase'
+    WebhookPathRequest:
+      example:
+        event_types:
+        - SUBMISSION_COMPLETE
+        - SUBMISSION_COMPLETE
+        description: description
+      properties:
+        description:
+          description: a human readable description of the webhook
+          type: string
+        event_types:
+          description: an array of the types of callbacks that will be sent to this
+            webhook
+          items:
+            enum:
+            - SUBMISSION_COMPLETE
+            - SIMILARITY_COMPLETE
+            - SIMILARITY_UPDATED
+            - PDF_STATUS
+            - GROUP_ATTACHMENT_COMPLETE
+            type: string
+          type: array
+      required:
+      - event_types
+      type: object
+    AddGroupAttachmentRequest:
+      description: Request Object to add group attachment.
+      example:
+        template: false
+        title: My Template Attachment
+      properties:
+        title:
+          description: Attachment title
+          example: My Template Attachment
+          maxLength: 500
+          minLength: 1
+          type: string
+        template:
+          default: false
+          description: template
+          type: boolean
+      type: object
+    AddGroupAttachmentResponse:
+      description: Object returned for add group attachment.
+      example:
+        id: 768f4633-d4c5-3ba0-8814-caaf421c8985
+      properties:
+        id:
+          description: Attachment uuid
+          example: 768f4633-d4c5-3ba0-8814-caaf421c8985
+          type: string
+      type: object
+    GroupAttachmentResponse:
+      description: Object returned for group attachment.
+      example:
+        template: true
+        id: 768f4633-d4c5-3ba0-8814-caaf421c8985
+        title: History
+        status: CREATED
+      properties:
+        id:
+          description: uuid
+          example: 768f4633-d4c5-3ba0-8814-caaf421c8985
+          type: string
+        title:
+          description: title
+          example: History
+          type: string
+        status:
+          description: status
+          enum:
+          - CREATED
+          - PROCESSING
+          - COMPLETE
+          - ERROR
+          - DELETE
+          type: string
+        template:
+          description: template
+          type: boolean
+      type: object
+    Error:
+      description: The generic object returned for errors. Updated for recent TCA
+        changes.
+      properties:
+        status:
+          description: an HTTP Response JobStatus Code
+          type: string
+        message:
+          description: A message explaining what happened
+          type: string
+      type: object
+    RateLimitError:
+      allOf:
+      - $ref: '#/components/schemas/Error'
+    SubmissionSizeError:
+      allOf:
+      - $ref: '#/components/schemas/Error'
+    SuccessMessage:
+      description: Object returned for success messages.
+      example:
+        message: message
+      properties:
+        message:
+          description: message indicating a successful PUT request
+          type: string
+      type: object
+    FeaturesSimilarity:
+      example:
+        viewer_modes:
+          all_sources: true
+          match_overview: true
+        generation_settings:
+          search_repositories:
+          - INTERNET
+          - INTERNET
+          submission_auto_excludes: true
+        view_settings:
+          exclude_crossref_posted_content: true
+          exclude_custom_sections: true
+          exclude_abstract: true
+          exclude_small_matches: true
+          exclude_publications: true
+          exclude_preprints: true
+          exclude_internet: true
+          exclude_methods: true
+          exclude_citations: true
+          exclude_quotes: true
+          exclude_submitted_works: true
+          exclude_bibliography: true
+          exclude_crossref: true
+      properties:
+        viewer_modes:
+          $ref: '#/components/schemas/FeaturesViewerModes'
+        generation_settings:
+          $ref: '#/components/schemas/FeaturesGenerationSettings'
+        view_settings:
+          $ref: '#/components/schemas/FeaturesSimilarityViewSettings'
+      type: object
+    FeaturesTenant:
+      example:
+        require_eula: true
+      properties:
+        require_eula:
+          description: a flag indicating whether this tenant requires EULA checks
+            to use this API
+          type: boolean
+      type: object
+    Eula:
+      description: (optional) EULA acceptence information which either updates an
+        existing acceptence or creates a new acceptence
+      example:
+        accepted_timestamp: 2000-01-23T04:56:07.000+00:00
+        language: en-US
+        version: latest
+      properties:
+        accepted_timestamp:
+          description: |
+            The timestamp marking when the EULA was accepted
+          format: date-time
+          type: string
+        language:
+          description: |
+            The language code for which language instance of the EULA version was accepted
+          example: en-US
+          type: string
+        version:
+          description: |
+            The unique name of the EULA Version
+          example: latest
+          type: string
+      type: object
+    IndexingSettings:
+      example:
+        add_to_index: true
+      properties:
+        add_to_index:
+          description: If set, the submission will be added to all valid node groups
+            for future matching
+          type: boolean
+      type: object
+    SimilarityGenerationSettings:
+      example:
+        search_repositories:
+        - INTERNET
+        - INTERNET
+        submission_auto_excludes:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        auto_exclude_self_matching_scope: ALL
+        priority: true
+      properties:
+        search_repositories:
+          description: List of repositories to search
+          items:
+            enum:
+            - INTERNET
+            - PUBLICATION
+            - SUBMITTED_WORK
+            - PRIVATE
+            - CROSSREF
+            - CROSSREF_POSTED_CONTENT
+            type: string
+          type: array
+        submission_auto_excludes:
+          description: List of submission IDs to exclude from report
+          items:
+            format: uuid
+            type: string
+          type: array
+        auto_exclude_self_matching_scope:
+          description: self matching submissions to exclude from report
+          enum:
+          - ALL
+          - GROUP
+          - GROUP_CONTEXT
+          - NONE
+          type: string
+        priority:
+          description: Priority level of report generation
+          enum:
+          - false
+          type: boolean
+      required:
+      - search_repositories
+      type: object
+    FeaturesSimilarityViewSettings:
+      example:
+        exclude_crossref_posted_content: true
+        exclude_custom_sections: true
+        exclude_abstract: true
+        exclude_small_matches: true
+        exclude_publications: true
+        exclude_preprints: true
+        exclude_internet: true
+        exclude_methods: true
+        exclude_citations: true
+        exclude_quotes: true
+        exclude_submitted_works: true
+        exclude_bibliography: true
+        exclude_crossref: true
+      properties:
+        exclude_quotes:
+          description: |
+            If set to true, text in quotes will not count as similar content
+          type: boolean
+        exclude_bibliography:
+          description: |
+            If set to true, text in a bibliography section will not count as similar content
+          type: boolean
+        exclude_citations:
+          description: |
+            If set to true, text in citations will not count as similar content
+          type: boolean
+        exclude_abstract:
+          description: |
+            If set to true, text in the abstract section of the submission will not count as similar content
+          type: boolean
+        exclude_methods:
+          description: |
+            If set to true, text in the method section of the submission will not count as similar content
+          type: boolean
+        exclude_small_matches:
+          description: |
+            If set, similarity matches that match less than the specified amount of words will not count as similar content
+          type: boolean
+        exclude_internet:
+          description: |
+            If set to true, text matched to the internet collection will not count as similar content
+          type: boolean
+        exclude_publications:
+          description: |
+            If set to true, text matched to the publications collection will not count as similar content
+          type: boolean
+        exclude_crossref:
+          description: |
+            If set to true, text matched to the Crossref collection will not count as similar content
+          type: boolean
+        exclude_crossref_posted_content:
+          description: |
+            If set to true, text matched to the Crossref Posted Content collection will not count as similar content
+          type: boolean
+        exclude_submitted_works:
+          description: |
+            If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
+          type: boolean
+        exclude_custom_sections:
+          description: |
+            If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
+          type: boolean
+        exclude_preprints:
+          description: |
+            If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
+          type: boolean
+      type: object
+    SimilarityViewSettings:
+      example:
+        exclude_crossref_posted_content: true
+        exclude_custom_sections: true
+        exclude_abstract: true
+        exclude_small_matches: 0
+        exclude_publications: true
+        exclude_preprints: true
+        exclude_internet: true
+        exclude_methods: true
+        exclude_citations: true
+        exclude_quotes: true
+        exclude_submitted_works: true
+        exclude_bibliography: true
+        exclude_crossref: true
+      properties:
+        exclude_quotes:
+          description: |
+            If set to true, text in quotes will not count as similar content
+          type: boolean
+        exclude_bibliography:
+          description: |
+            If set to true, text in a bibliography section will not count as similar content
+          type: boolean
+        exclude_citations:
+          description: |
+            If set to true, text in citations will not count as similar content
+          type: boolean
+        exclude_abstract:
+          description: |
+            If set to true, text in the abstract section of the submission will not count as similar content
+          type: boolean
+        exclude_methods:
+          description: |
+            If set to true, text in the method section of the submission will not count as similar content
+          type: boolean
+        exclude_small_matches:
+          description: |
+            If set, similarity matches that match less than the specified amount of words will not count as similar content
+          type: integer
+        exclude_internet:
+          description: |
+            If set to true, text matched to the internet collection will not count as similar content
+          type: boolean
+        exclude_publications:
+          description: |
+            If set to true, text matched to the publications collection will not count as similar content
+          type: boolean
+        exclude_crossref:
+          description: |
+            If set to true, text matched to the Crossref collection will not count as similar content
+          type: boolean
+        exclude_crossref_posted_content:
+          description: |
+            If set to true, text matched to the Crossref Posted Content collection will not count as similar content
+          type: boolean
+        exclude_submitted_works:
+          description: |
+            If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
+          type: boolean
+        exclude_custom_sections:
+          description: |
+            If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
+          type: boolean
+        exclude_preprints:
+          description: |
+            If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
+          type: boolean
+      type: object
+    SimilarityScoreData:
+      properties:
+        overall_match_percentage:
+          description: Represents the percentage match against all sources
+          format: int32
+          type: integer
+        internet_match_percentage:
+          description: Represents the percentage match against internet
+          format: int32
+          nullable: true
+          type: integer
+        publication_match_percentage:
+          description: Represents the percentage match against all publications
+          format: int32
+          nullable: true
+          type: integer
+        submitted_works_match_percentage:
+          description: Represents the percentage match against all submitted works
+          format: int32
+          nullable: true
+          type: integer
+      required:
+      - overall_match_percentage
+      type: object
+    AuthorMetadataOverride:
+      example:
+        given_name: given_name
+        family_name: family_name
+      properties:
+        given_name:
+          description: Given or first name of submission author
+          type: string
+        family_name:
+          description: Family or last name of submission author
+          type: string
+      type: object
+    WebhookBase:
+      properties:
+        description:
+          description: a human readable description of the webhook
+          type: string
+        url:
+          description: the URL to callback with events, this must be https unless
+            (allow_insecure is true)
+          type: string
+        allow_insecure:
+          description: if using an non https url, this must be set to true
+          type: boolean
+        event_types:
+          description: an array of the types of callbacks that will be sent to this
+            webhook
+          items:
+            enum:
+            - SUBMISSION_COMPLETE
+            - SIMILARITY_COMPLETE
+            - SIMILARITY_UPDATED
+            - PDF_STATUS
+            - GROUP_ATTACHMENT_COMPLETE
+            type: string
+          type: array
+      required:
+      - event_types
+      - url
+      type: object
+    FeaturesViewerModes:
+      example:
+        all_sources: true
+        match_overview: true
+      properties:
+        match_overview:
+          type: boolean
+        all_sources:
+          type: boolean
+      type: object
+    FeaturesGenerationSettings:
+      example:
+        search_repositories:
+        - INTERNET
+        - INTERNET
+        submission_auto_excludes: true
+      properties:
+        search_repositories:
+          description: List of repositories to search
+          items:
+            enum:
+            - INTERNET
+            - PUBLICATION
+            - SUBMITTED_WORK
+            - PRIVATE
+            - CROSSREF
+            - CROSSREF_POSTED_CONTENT
+            type: string
+          type: array
+        submission_auto_excludes:
+          type: boolean
+      type: object
+    _webhooks_metadata:
+      properties:
+        custom:
+          type: string
+      type: object
+    inline_object:
+      properties:
+        status:
+          description: The requesting Pdf status
+          enum:
+          - SUCCESS
+          - PENDING
+          - FAILED
+          type: string
+        id:
+          description: the PDF ID
+          type: string
+        submission_id:
+          description: the associated submission ID
+          type: string
+        metadata:
+          $ref: '#/components/schemas/_webhooks_metadata'
+      type: object
+    inline_response_200:
+      example:
+        attachments:
+        - template: true
+          id: 768f4633-d4c5-3ba0-8814-caaf421c8985
+          title: History
+          status: CREATED
+        - template: true
+          id: 768f4633-d4c5-3ba0-8814-caaf421c8985
+          title: History
+          status: CREATED
+      properties:
+        attachments:
+          items:
+            $ref: '#/components/schemas/GroupAttachmentResponse'
+          type: array
+      type: object
+    SubmissionBase_metadata:
+      description: (optional) Submission metadata. If a group context is included,
+        it must be associated to a group
+      example:
+        submitter:
+          id: id
+          given_name: given_name
+          family_name: family_name
+          email: email
+        custom: '{"Hello": "data"}'
+        original_submitted_time: 2000-01-23T04:56:07.000+00:00
+        owners:
+        - id: id
+          given_name: given_name
+          family_name: family_name
+          email: email
+        - id: id
+          given_name: given_name
+          family_name: family_name
+          email: email
+        group_context:
+          name: name
+          owners:
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          - id: id
+            given_name: given_name
+            family_name: family_name
+            email: email
+          id: id
+        group:
+          name: name
+          id: id
+          type: ASSIGNMENT
+      properties:
+        submitter:
+          $ref: '#/components/schemas/Users'
+        owners:
+          items:
+            $ref: '#/components/schemas/Users'
+          type: array
+        group:
+          $ref: '#/components/schemas/Group'
+        group_context:
+          $ref: '#/components/schemas/GroupContext'
+        original_submitted_time:
+          description: Optional original submision date
+          format: date-time
+          type: string
+        custom:
+          description: custom metadata
+          example: '{"Hello": "data"}'
+          type: string
+      type: object
+    SimpleSubmissionResponse_allOf:
+      properties:
+        id:
+          description: the unique ID of the submission
+          type: string
+        owner:
+          description: the owner of the submission
+          type: string
+        title:
+          description: the title of the submission
+          type: string
+        status:
+          description: the current status of the Submission
+          enum:
+          - CREATED
+          - PROCESSING
+          - COMPLETE
+          type: string
+        created_time:
+          description: |
+            RFC3339 timestamp of when this submission was initially created. This is the time at which the POST to /submissions was made.
+          format: date-time
+          type: string
+      type: object
+    Submission_allOf:
+      properties:
+        owner:
+          description: the owner of the submission
+          type: string
+        title:
+          description: the title of the submission
+          type: string
+        status:
+          description: the current status of the Submission
+          enum:
+          - CREATED
+          - PROCESSING
+          - COMPLETED
+          type: string
+        id:
+          description: the unique ID of the submission
+          type: string
+        content_type:
+          description: the content type of the submission
+          type: string
+        page_count:
+          description: the number of pages in the submission
+          type: integer
+        word_count:
+          description: the number of words in the submission
+          type: integer
+        character_count:
+          description: the number of characters in the submission
+          type: integer
+        error_code:
+          description: |
+            an error code representing the type of error encountered (if applicable)
+          enum:
+          - UNSUPPORTED_FILETYPE
+          - PROCESSING_ERROR
+          - CANNOT_EXTRACT_TEXT
+          - TOO_LITTLE_TEXT
+          - TOO_MUCH_TEXT
+          - TOO_MANY_PAGES
+          - FILE_LOCKED
+          - CORRUPT_FILE
+          type: string
+        created_time:
+          description: |
+            RFC3339 timestamp of when this submission was initially created. This is the time at which the POST to /submissions was made.
+          format: date-time
+          type: string
+        capabilities:
+          description: Set of capabilities available to the current submission
+          items:
+            enum:
+            - INDEX
+            - SIMILARITY
+            - VIEWER
+            type: string
+          type: array
+      type: object
+    SimilarityMetadata_allOf_top_matches:
+      properties:
+        name:
+          description: Source name
+          type: string
+        percentage:
+          description: Match percentage
+          type: number
+        submission_id:
+          description: Matching submission id
+          type: string
+        source_type:
+          description: Matching submission source type (INTERNET, PUBLICATION, SUBMITTED_WORK)
+          type: string
+        matched_word_count_total:
+          description: number of matching words
+          type: number
+        submitted_date:
+          description: date match was submitted
+          type: string
+        institution_name:
+          description: intitution name for matched SUBMITTED_WORK types
+          type: string
+      type: object
+    SimilarityMetadata_allOf:
+      properties:
+        submission_id:
+          type: string
+        status:
+          description: possible values PENDING, COMPLETE
+          type: string
+        time_generated:
+          description: Time the report finished generating.  If not set the report
+            has not finished generating
+          type: string
+        time_requested:
+          description: Time the report was requested
+          type: string
+        top_matches:
+          description: Top matches
+          items:
+            $ref: '#/components/schemas/SimilarityMetadata_allOf_top_matches'
+          type: array
+        top_source_largest_matched_word_count:
+          description: Largest individual matched word count, 0 if there isn't a match
+            to this submission.
+          format: int32
+          type: integer
+      required:
+      - status
+      - submission_id
+      - time_generated
+      - time_requested
+      - top_matches
+      - top_source_largest_matched_word_count
+      type: object
+    SimilaritySettings_modes:
+      example:
+        all_sources: true
+        match_overview: true
+      properties:
+        match_overview:
+          description: Used to enable use of the match overview mode in the viewer
+          type: boolean
+        all_sources:
+          description: Used to enable use of the all sources mode in the viewer
+          type: boolean
+      type: object
+    SimilaritySettings_view_settings:
+      example:
+        save_changes: true
+      properties:
+        save_changes:
+          description: Used to enable save changes in the Viewer and trigger SIMILARITY_UPDATED
+            webhook callback
+          type: boolean
+      type: object
+    WebhookWithSecret_allOf:
+      properties:
+        signing_secret:
+          description: a sercret used to sign all callbacks for this webhook
+          format: binary
+          type: string
+      required:
+      - signing_secret
+      type: object
+    Webhook_allOf:
+      properties:
+        id:
+          description: unique id of webhook
+          type: string
+        created_time:
+          description: |
+            RFC3339  timestamp of when this Webhook was initially created. This is the time at which the POST to /webhooks was made.
+          format: date-time
+          type: string
+      required:
+      - id
+      type: object
+  securitySchemes:
+    api_key:
+      in: header
+      name: Authorization
+      type: apiKey
+
