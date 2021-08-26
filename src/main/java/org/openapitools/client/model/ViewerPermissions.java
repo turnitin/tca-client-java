@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * ViewerPermissions
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:28:26.384346Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:38:39.898894Z[Etc/UTC]")
 public class ViewerPermissions {
   public static final String SERIALIZED_NAME_MAY_VIEW_SUBMISSION_FULL_SOURCE = "may_view_submission_full_source";
   @SerializedName(SERIALIZED_NAME_MAY_VIEW_SUBMISSION_FULL_SOURCE)

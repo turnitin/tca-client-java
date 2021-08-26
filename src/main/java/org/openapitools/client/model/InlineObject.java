@@ -28,7 +28,7 @@ import org.openapitools.client.model.WebhooksMetadata;
 /**
  * InlineObject
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:28:26.384346Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:38:39.898894Z[Etc/UTC]")
 public class InlineObject {
   /**
    * The requesting Pdf status

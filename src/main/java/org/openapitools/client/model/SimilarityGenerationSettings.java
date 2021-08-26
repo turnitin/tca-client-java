@@ -30,7 +30,7 @@ import java.util.UUID;
 /**
  * SimilarityGenerationSettings
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:28:26.384346Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:38:39.898894Z[Etc/UTC]")
 public class SimilarityGenerationSettings {
   /**
    * Gets or Sets searchRepositories

@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * Sidebar
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:28:26.384346Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:38:39.898894Z[Etc/UTC]")
 public class Sidebar {
   /**
    * The default mode shown in the sidebar panel. The selected mode must be enabled in the tenant&#39;s license, request parameter, as well as the viewer&#39;s permission. The default mode is similarity. 
