@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * AuthorMetadataOverride
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:42:10.874644Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:50:45.065084Z[Etc/UTC]")
 public class AuthorMetadataOverride {
   public static final String SERIALIZED_NAME_GIVEN_NAME = "given_name";
   @SerializedName(SERIALIZED_NAME_GIVEN_NAME)

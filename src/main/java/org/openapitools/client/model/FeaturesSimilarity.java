@@ -30,7 +30,7 @@ import org.openapitools.client.model.FeaturesViewerModes;
 /**
  * FeaturesSimilarity
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:42:10.874644Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:50:45.065084Z[Etc/UTC]")
 public class FeaturesSimilarity {
   public static final String SERIALIZED_NAME_VIEWER_MODES = "viewer_modes";
   @SerializedName(SERIALIZED_NAME_VIEWER_MODES)

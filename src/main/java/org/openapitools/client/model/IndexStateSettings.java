@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * IndexStateSettings
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:42:10.874644Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:50:45.065084Z[Etc/UTC]")
 public class IndexStateSettings {
   public static final String SERIALIZED_NAME_IS_INDEXED = "is_indexed";
   @SerializedName(SERIALIZED_NAME_IS_INDEXED)

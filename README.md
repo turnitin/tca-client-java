@@ -2,7 +2,7 @@
 
 Turnitin Core API
 - API version: 1.0.223
-  - Build date: 2021-08-26T18:42:10.874644Z[Etc/UTC]
+  - Build date: 2021-08-26T18:50:45.065084Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. It supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
