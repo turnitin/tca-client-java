@@ -30,7 +30,7 @@ import org.openapitools.client.model.GroupAttachmentResponse;
 /**
  * InlineResponse200
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:38:39.898894Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-26T18:42:10.874644Z[Etc/UTC]")
 public class InlineResponse200 {
   public static final String SERIALIZED_NAME_ATTACHMENTS = "attachments";
   @SerializedName(SERIALIZED_NAME_ATTACHMENTS)
