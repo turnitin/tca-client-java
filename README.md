@@ -1,11 +1,11 @@
 # openapi-java-client
 
 Turnitin Core API
-- API version: 1.0.220
-  - Build date: 2021-08-18T14:13:09.743898-04:00[America/New_York]
+- API version: 1.0.223
+  - Build date: 2021-08-26T18:28:26.384346Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. It supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
-Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI, by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
+Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
 ## Integration Scope and API Key Management
 TCA API calls must provide an API Key for authentication, so you must first have at least one integration scope associated with at least one API Key to use TCA.
 ### Admin Console UI
@@ -67,7 +67,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.openapitools</groupId>
   <artifactId>openapi-java-client</artifactId>
-  <version>1.0.220</version>
+  <version>1.0.223</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -77,7 +77,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:openapi-java-client:1.0.220"
+compile "org.openapitools:openapi-java-client:1.0.223"
 ```
 
 ### Others
@@ -90,7 +90,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.220.jar`
+* `target/openapi-java-client-1.0.223.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
