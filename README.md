@@ -2,7 +2,7 @@
 
 Turnitin Core API
 - API version: 1.0.223
-  - Build date: 2021-08-26T19:18:43.739499Z[Etc/UTC]
+  - Build date: 2021-08-27T14:06:39.372607Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
@@ -22,7 +22,7 @@ Integration Scopes (you can create a new one, or add keys to existing)
 
   *  Register a webhook
   *  Create a submission
-  *  Upload a file to the submission
+  *  Upload a file for the submission
   *  Wait for the submission upload to process
      * If you registered a webhook, a callback will be sent to it when upload is complete
      * The status of the *submission* will also update to `COMPLETE`
