@@ -34,7 +34,7 @@ import org.threeten.bp.OffsetDateTime;
  * (optional) Submission metadata. If a group context is included, it must be associated to a group
  */
 @ApiModel(description = "(optional) Submission metadata. If a group context is included, it must be associated to a group")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-09-20T14:49:58.536757Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-09-20T15:00:46.785538Z[Etc/UTC]")
 public class SubmissionBaseMetadata {
   public static final String SERIALIZED_NAME_SUBMITTER = "submitter";
   @SerializedName(SERIALIZED_NAME_SUBMITTER)

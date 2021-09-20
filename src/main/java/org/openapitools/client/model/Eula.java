@@ -29,7 +29,7 @@ import org.threeten.bp.OffsetDateTime;
  * (optional) EULA acceptence information which either updates an existing acceptence or creates a new acceptence
  */
 @ApiModel(description = "(optional) EULA acceptence information which either updates an existing acceptence or creates a new acceptence")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-09-20T14:49:58.536757Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-09-20T15:00:46.785538Z[Etc/UTC]")
 public class Eula {
   public static final String SERIALIZED_NAME_ACCEPTED_TIMESTAMP = "accepted_timestamp";
   @SerializedName(SERIALIZED_NAME_ACCEPTED_TIMESTAMP)
