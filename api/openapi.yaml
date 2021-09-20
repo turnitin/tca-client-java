@@ -29,7 +29,7 @@ info:
          * The status of the *report* will also be updated to `COMPLETE`
       *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.223
+  version: 1.0.225
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -46,7 +46,7 @@ tags:
   name: Features
 - description: Manage acceptence of EULAs
   name: EULA
-- description: Template exclusion
+- description: Used for template exclusion
   name: Groups
 - description: Upload files and retrieve data
   name: Submission
@@ -2902,15 +2902,15 @@ components:
           - INTERNET
           - INTERNET
           submission_auto_excludes:
-          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 0dacc0d5-2deb-4564-97f9-726d89b6617f
+          - 0dacc0d5-2deb-4564-97f9-726d89b6617f
           auto_exclude_self_matching_scope: ALL
           priority: true
         view_settings:
           exclude_crossref_posted_content: true
           exclude_custom_sections: true
           exclude_abstract: true
-          exclude_small_matches: 0
+          exclude_small_matches: 4
           exclude_publications: true
           exclude_preprints: true
           exclude_internet: true
@@ -3362,8 +3362,8 @@ components:
         - INTERNET
         - INTERNET
         submission_auto_excludes:
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 0dacc0d5-2deb-4564-97f9-726d89b6617f
+        - 0dacc0d5-2deb-4564-97f9-726d89b6617f
         auto_exclude_self_matching_scope: ALL
         priority: true
       properties:
@@ -3382,6 +3382,7 @@ components:
         submission_auto_excludes:
           description: List of submission IDs to exclude from report
           items:
+            example: 0dacc0d5-2deb-4564-97f9-726d89b6617f
             format: uuid
             type: string
           type: array
@@ -3420,54 +3421,67 @@ components:
         exclude_quotes:
           description: |
             If set to true, text in quotes will not count as similar content
+          example: true
           type: boolean
         exclude_bibliography:
           description: |
             If set to true, text in a bibliography section will not count as similar content
+          example: true
           type: boolean
         exclude_citations:
           description: |
             If set to true, text in citations will not count as similar content
+          example: true
           type: boolean
         exclude_abstract:
           description: |
             If set to true, text in the abstract section of the submission will not count as similar content
+          example: true
           type: boolean
         exclude_methods:
           description: |
             If set to true, text in the method section of the submission will not count as similar content
+          example: true
           type: boolean
         exclude_small_matches:
           description: |
             If set, similarity matches that match less than the specified amount of words will not count as similar content
+          example: true
           type: boolean
         exclude_internet:
           description: |
             If set to true, text matched to the internet collection will not count as similar content
+          example: true
           type: boolean
         exclude_publications:
           description: |
             If set to true, text matched to the publications collection will not count as similar content
+          example: true
           type: boolean
         exclude_crossref:
           description: |
             If set to true, text matched to the Crossref collection will not count as similar content
+          example: true
           type: boolean
         exclude_crossref_posted_content:
           description: |
             If set to true, text matched to the Crossref Posted Content collection will not count as similar content
+          example: true
           type: boolean
         exclude_submitted_works:
           description: |
             If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
+          example: true
           type: boolean
         exclude_custom_sections:
           description: |
             If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
+          example: true
           type: boolean
         exclude_preprints:
           description: |
             If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
+          example: true
           type: boolean
       type: object
     SimilarityViewSettings:
@@ -3475,7 +3489,7 @@ components:
         exclude_crossref_posted_content: true
         exclude_custom_sections: true
         exclude_abstract: true
-        exclude_small_matches: 0
+        exclude_small_matches: 4
         exclude_publications: true
         exclude_preprints: true
         exclude_internet: true
@@ -3489,54 +3503,67 @@ components:
         exclude_quotes:
           description: |
             If set to true, text in quotes will not count as similar content
+          example: true
           type: boolean
         exclude_bibliography:
           description: |
             If set to true, text in a bibliography section will not count as similar content
+          example: true
           type: boolean
         exclude_citations:
           description: |
             If set to true, text in citations will not count as similar content
+          example: true
           type: boolean
         exclude_abstract:
           description: |
             If set to true, text in the abstract section of the submission will not count as similar content
+          example: true
           type: boolean
         exclude_methods:
           description: |
             If set to true, text in the method section of the submission will not count as similar content
+          example: true
           type: boolean
         exclude_small_matches:
           description: |
             If set, similarity matches that match less than the specified amount of words will not count as similar content
+          example: 4
           type: integer
         exclude_internet:
           description: |
             If set to true, text matched to the internet collection will not count as similar content
+          example: true
           type: boolean
         exclude_publications:
           description: |
             If set to true, text matched to the publications collection will not count as similar content
+          example: true
           type: boolean
         exclude_crossref:
           description: |
             If set to true, text matched to the Crossref collection will not count as similar content
+          example: true
           type: boolean
         exclude_crossref_posted_content:
           description: |
             If set to true, text matched to the Crossref Posted Content collection will not count as similar content
+          example: true
           type: boolean
         exclude_submitted_works:
           description: |
             If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
+          example: true
           type: boolean
         exclude_custom_sections:
           description: |
             If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
+          example: true
           type: boolean
         exclude_preprints:
           description: |
             If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
+          example: true
           type: boolean
       type: object
     SimilarityScoreData:
