@@ -1,8 +1,8 @@
 # openapi-java-client
 
 Turnitin Core API
-- API version: 1.0.225
-  - Build date: 2021-09-20T15:00:46.785538Z[Etc/UTC]
+- API version: 1.0.226
+  - Build date: 2021-10-04T12:13:23.459357Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
@@ -67,7 +67,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.openapitools</groupId>
   <artifactId>openapi-java-client</artifactId>
-  <version>1.0.225</version>
+  <version>1.0.226</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -77,7 +77,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:openapi-java-client:1.0.225"
+compile "org.openapitools:openapi-java-client:1.0.226"
 ```
 
 ### Others
@@ -90,7 +90,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.225.jar`
+* `target/openapi-java-client-1.0.226.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -209,10 +209,6 @@ Class | Method | HTTP request | Description
  - [SimilarityMetadata](docs/SimilarityMetadata.md)
  - [SimilarityMetadataAllOf](docs/SimilarityMetadataAllOf.md)
  - [SimilarityMetadataAllOfTopMatches](docs/SimilarityMetadataAllOfTopMatches.md)
- - [SimilarityOverview](docs/SimilarityOverview.md)
- - [SimilarityOverviewMatchAggregate](docs/SimilarityOverviewMatchAggregate.md)
- - [SimilarityOverviewMatchGroup](docs/SimilarityOverviewMatchGroup.md)
- - [SimilarityOverviewMatchSource](docs/SimilarityOverviewMatchSource.md)
  - [SimilarityPutRequest](docs/SimilarityPutRequest.md)
  - [SimilarityScoreData](docs/SimilarityScoreData.md)
  - [SimilaritySettings](docs/SimilaritySettings.md)

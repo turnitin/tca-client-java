@@ -29,7 +29,7 @@ info:
          * The status of the *report* will also be updated to `COMPLETE`
       *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.225
+  version: 1.0.226
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -2934,72 +2934,6 @@ components:
       allOf:
       - $ref: '#/components/schemas/SimilarityScoreData'
       - $ref: '#/components/schemas/SimilarityMetadata_allOf'
-    SimilarityOverview:
-      properties:
-        submission_id:
-          type: string
-        overall_match_percentage:
-          type: number
-        submission_text:
-          type: string
-        match_aggregates:
-          items:
-            $ref: '#/components/schemas/SimilarityOverviewMatchAggregate'
-          type: array
-      type: object
-    SimilarityOverviewMatchAggregate:
-      properties:
-        source_type:
-          type: string
-        description:
-          type: string
-        percent:
-          type: number
-        aggregate_id:
-          type: string
-        match_sources:
-          items:
-            $ref: '#/components/schemas/SimilarityOverviewMatchSource'
-          type: array
-      type: object
-    SimilarityOverviewMatchSource:
-      properties:
-        source_type:
-          type: string
-        institution_name:
-          type: string
-        description:
-          type: string
-        download_date:
-          type: string
-        submitted_date:
-          type: string
-        link:
-          type: string
-        source_id:
-          type: string
-        submission_id:
-          type: string
-        percent:
-          type: number
-        visibility:
-          type: string
-        match_groups:
-          items:
-            $ref: '#/components/schemas/SimilarityOverviewMatchGroup'
-          type: array
-      type: object
-    SimilarityOverviewMatchGroup:
-      properties:
-        glimpse_id:
-          type: string
-        match_segments:
-          items:
-            items:
-              type: number
-            type: array
-          type: array
-      type: object
     SimilarityViewerUrlSettings:
       example:
         sidebar:

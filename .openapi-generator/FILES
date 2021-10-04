@@ -39,10 +39,6 @@ docs/SimilarityGenerationSettings.md
 docs/SimilarityMetadata.md
 docs/SimilarityMetadataAllOf.md
 docs/SimilarityMetadataAllOfTopMatches.md
-docs/SimilarityOverview.md
-docs/SimilarityOverviewMatchAggregate.md
-docs/SimilarityOverviewMatchGroup.md
-docs/SimilarityOverviewMatchSource.md
 docs/SimilarityPutRequest.md
 docs/SimilarityScoreData.md
 docs/SimilaritySettings.md
@@ -133,10 +129,6 @@ src/main/java/org/openapitools/client/model/SimilarityGenerationSettings.java
 src/main/java/org/openapitools/client/model/SimilarityMetadata.java
 src/main/java/org/openapitools/client/model/SimilarityMetadataAllOf.java
 src/main/java/org/openapitools/client/model/SimilarityMetadataAllOfTopMatches.java
-src/main/java/org/openapitools/client/model/SimilarityOverview.java
-src/main/java/org/openapitools/client/model/SimilarityOverviewMatchAggregate.java
-src/main/java/org/openapitools/client/model/SimilarityOverviewMatchGroup.java
-src/main/java/org/openapitools/client/model/SimilarityOverviewMatchSource.java
 src/main/java/org/openapitools/client/model/SimilarityPutRequest.java
 src/main/java/org/openapitools/client/model/SimilarityScoreData.java
 src/main/java/org/openapitools/client/model/SimilaritySettings.java
@@ -199,10 +191,6 @@ src/test/java/org/openapitools/client/model/SimilarityGenerationSettingsTest.jav
 src/test/java/org/openapitools/client/model/SimilarityMetadataAllOfTest.java
 src/test/java/org/openapitools/client/model/SimilarityMetadataAllOfTopMatchesTest.java
 src/test/java/org/openapitools/client/model/SimilarityMetadataTest.java
-src/test/java/org/openapitools/client/model/SimilarityOverviewMatchAggregateTest.java
-src/test/java/org/openapitools/client/model/SimilarityOverviewMatchGroupTest.java
-src/test/java/org/openapitools/client/model/SimilarityOverviewMatchSourceTest.java
-src/test/java/org/openapitools/client/model/SimilarityOverviewTest.java
 src/test/java/org/openapitools/client/model/SimilarityPutRequestTest.java
 src/test/java/org/openapitools/client/model/SimilarityScoreDataTest.java
 src/test/java/org/openapitools/client/model/SimilaritySettingsModesTest.java
