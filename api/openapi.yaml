@@ -29,7 +29,7 @@ info:
          * The status of the *report* will also be updated to `COMPLETE`
       *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.226
+  version: 1.0.228
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -2944,6 +2944,7 @@ components:
             match_overview: true
           view_settings:
             save_changes: true
+          default_mode: match_overview
         author_metadata_override:
           given_name: given_name
           family_name: family_name
@@ -3012,7 +3013,15 @@ components:
           match_overview: true
         view_settings:
           save_changes: true
+        default_mode: match_overview
       properties:
+        default_mode:
+          description: default similarity mode when viewing a report; set to either
+            match_overview or all_sources
+          enum:
+          - match_overview
+          - all_sources
+          type: string
         modes:
           $ref: '#/components/schemas/SimilaritySettings_modes'
         view_settings:
