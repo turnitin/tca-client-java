@@ -29,7 +29,7 @@ info:
          * The status of the *report* will also be updated to `COMPLETE`
       *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.228
+  version: 1.0.230
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
