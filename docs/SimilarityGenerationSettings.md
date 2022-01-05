@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **searchRepositories** | [**List&lt;SearchRepositoriesEnum&gt;**](#List&lt;SearchRepositoriesEnum&gt;) | List of repositories to search | 
 **submissionAutoExcludes** | **List&lt;UUID&gt;** | List of submission IDs to exclude from report |  [optional]
 **autoExcludeSelfMatchingScope** | [**AutoExcludeSelfMatchingScopeEnum**](#AutoExcludeSelfMatchingScopeEnum) | self matching submissions to exclude from report |  [optional]
-**priority** | [**PriorityEnum**](#PriorityEnum) | Priority level of report generation |  [optional]
+**priority** | **Boolean** | Priority level of report generation |  [optional]
 
 
 
@@ -35,14 +35,6 @@ ALL | &quot;ALL&quot;
 GROUP | &quot;GROUP&quot;
 GROUP_CONTEXT | &quot;GROUP_CONTEXT&quot;
 NONE | &quot;NONE&quot;
-
-
-
-## Enum: PriorityEnum
-
-Name | Value
----- | -----
-FALSE | &quot;false&quot;
 
 
 

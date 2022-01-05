@@ -29,7 +29,7 @@ info:
          * The status of the *report* will also be updated to `COMPLETE`
       *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.230
+  version: 1.0.238
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -2905,7 +2905,7 @@ components:
           - 0dacc0d5-2deb-4564-97f9-726d89b6617f
           - 0dacc0d5-2deb-4564-97f9-726d89b6617f
           auto_exclude_self_matching_scope: ALL
-          priority: true
+          priority: false
         view_settings:
           exclude_crossref_posted_content: true
           exclude_custom_sections: true
@@ -3308,7 +3308,7 @@ components:
         - 0dacc0d5-2deb-4564-97f9-726d89b6617f
         - 0dacc0d5-2deb-4564-97f9-726d89b6617f
         auto_exclude_self_matching_scope: ALL
-        priority: true
+        priority: false
       properties:
         search_repositories:
           description: List of repositories to search
@@ -3339,8 +3339,7 @@ components:
           type: string
         priority:
           description: Priority level of report generation
-          enum:
-          - false
+          example: false
           type: boolean
       required:
       - search_repositories
