@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * IndexingSettings
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:22:32.008226Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:23:06.789415Z[Etc/UTC]")
 public class IndexingSettings {
   public static final String SERIALIZED_NAME_ADD_TO_INDEX = "add_to_index";
   @SerializedName(SERIALIZED_NAME_ADD_TO_INDEX)

@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
  * (optional) Submission metadata. If a group context is included, it must be associated to a group
  */
 @ApiModel(description = "(optional) Submission metadata. If a group context is included, it must be associated to a group")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:22:32.008226Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:23:06.789415Z[Etc/UTC]")
 public class SubmissionBaseMetadata {
   public static final String SERIALIZED_NAME_SUBMITTER = "submitter";
   @SerializedName(SERIALIZED_NAME_SUBMITTER)

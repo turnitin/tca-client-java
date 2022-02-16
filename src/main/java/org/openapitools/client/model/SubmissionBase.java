@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
  * A Submission is the base object on which other services (such as similarity) are offered. In order to use other services a Submission must first be created and successfully process, then other service objects can be created. 
  */
 @ApiModel(description = "A Submission is the base object on which other services (such as similarity) are offered. In order to use other services a Submission must first be created and successfully process, then other service objects can be created. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:22:32.008226Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:23:06.789415Z[Etc/UTC]")
 public class SubmissionBase {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

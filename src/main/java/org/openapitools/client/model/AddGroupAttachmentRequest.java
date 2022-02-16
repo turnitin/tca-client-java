@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
  * Request Object to add group attachment.
  */
 @ApiModel(description = "Request Object to add group attachment.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:22:32.008226Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-02-16T12:23:06.789415Z[Etc/UTC]")
 public class AddGroupAttachmentRequest {
   public static final String SERIALIZED_NAME_TITLE = "title";
   @SerializedName(SERIALIZED_NAME_TITLE)
