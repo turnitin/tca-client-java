@@ -531,7 +531,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadGroupAttachment"></a>
 # **uploadGroupAttachment**
-> SuccessMessage uploadGroupAttachment(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId, attachId, contentDisposition, file)
+> SuccessMessage uploadGroupAttachment(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId, attachId, contentDisposition, _file)
 
 Upload Submitted File
 
@@ -562,9 +562,9 @@ public class Example {
     String groupId = "groupId_example"; // String | The Group ID (required to already exist) 
     String attachId = "attachId_example"; // String | The attachment ID (returned from a successful group attachment request) 
     String contentDisposition = "inline; filename=\"MyFile.docx\""; // String | *must include the \"filename\" parameter, e.g. `inline; filename=\"MyFile.docx\"` 
-    Object file = null; // Object | the attachment file
+    Object _file = null; // Object | the attachment file
     try {
-      SuccessMessage result = apiInstance.uploadGroupAttachment(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId, attachId, contentDisposition, file);
+      SuccessMessage result = apiInstance.uploadGroupAttachment(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId, attachId, contentDisposition, _file);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling GroupsApi#uploadGroupAttachment");
@@ -586,7 +586,7 @@ Name | Type | Description  | Notes
  **groupId** | **String**| The Group ID (required to already exist)  |
  **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  |
  **contentDisposition** | **String**| *must include the \&quot;filename\&quot; parameter, e.g. &#x60;inline; filename&#x3D;\&quot;MyFile.docx\&quot;&#x60;  |
- **file** | **Object**| the attachment file |
+ **_file** | **Object**| the attachment file |
 
 ### Return type
 

@@ -8,6 +8,7 @@ A Submission is the base object on which other services (such as similarity) are
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **Object** | Submission id, optional field |  [optional]
 **owner** | **String** | ID of the owning user |  [optional]
 **ownerDefaultPermissionSet** | [**OwnerDefaultPermissionSetEnum**](#OwnerDefaultPermissionSetEnum) | Default viewer permission set, accepts INSTRUCTOR, LEARNER, EDITOR, USER, APPLICANT, ADMINISTRATOR, UNDEFINED |  [optional]
 **title** | **String** | the title of the submission |  [optional]

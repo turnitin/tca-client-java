@@ -1,8 +1,8 @@
 # openapi-java-client
 
 Turnitin Core API
-- API version: 1.0.238
-  - Build date: 2022-01-05T19:31:40.607164Z[Etc/UTC]
+- API version: 1.0.241
+  - Build date: 2022-02-16T12:22:32.008226Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
@@ -40,7 +40,7 @@ Integration Scopes (you can create a new one, or add keys to existing)
 ## Requirements
 
 Building the API client library requires:
-1. Java 1.7+
+1. Java 1.8+
 2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
@@ -67,7 +67,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.openapitools</groupId>
   <artifactId>openapi-java-client</artifactId>
-  <version>1.0.238</version>
+  <version>1.0.241</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -83,7 +83,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.0.238"
+     implementation "org.openapitools:openapi-java-client:1.0.241"
   }
 ```
 
@@ -97,7 +97,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.238.jar`
+* `target/openapi-java-client-1.0.241.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

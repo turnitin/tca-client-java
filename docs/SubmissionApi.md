@@ -315,7 +315,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadSubmittedFile"></a>
 # **uploadSubmittedFile**
-> SuccessMessage uploadSubmittedFile(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, contentType, contentDisposition, file)
+> SuccessMessage uploadSubmittedFile(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, contentType, contentDisposition, _file)
 
 Upload Submitted File
 
@@ -346,9 +346,9 @@ public class Example {
     String id = "id_example"; // String | The Submission ID (returned upon a successful POST to /submissions) 
     String contentType = "contentType_example"; // String | *Must be 'binary/octet-stream' 
     String contentDisposition = "inline; filename=\"MyFile.docx\""; // String | *must include the \"filename\" parameter, e.g. `inline; filename=\"MyFile.docx\"`. To support UTF-8 filenames, you must URL encode the header 
-    Object file = null; // Object | the user's submitted file
+    Object _file = null; // Object | the user's submitted file
     try {
-      SuccessMessage result = apiInstance.uploadSubmittedFile(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, contentType, contentDisposition, file);
+      SuccessMessage result = apiInstance.uploadSubmittedFile(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, contentType, contentDisposition, _file);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling SubmissionApi#uploadSubmittedFile");
@@ -370,7 +370,7 @@ Name | Type | Description  | Notes
  **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  |
  **contentType** | **String**| *Must be &#39;binary/octet-stream&#39;  |
  **contentDisposition** | **String**| *must include the \&quot;filename\&quot; parameter, e.g. &#x60;inline; filename&#x3D;\&quot;MyFile.docx\&quot;&#x60;. To support UTF-8 filenames, you must URL encode the header  |
- **file** | **Object**| the user&#39;s submitted file |
+ **_file** | **Object**| the user&#39;s submitted file |
 
 ### Return type
 
