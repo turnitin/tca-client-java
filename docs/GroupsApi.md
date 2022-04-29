@@ -2,16 +2,16 @@
 
 All URIs are relative to *https://app-us.turnitin.com/api/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addGroupAttachment**](GroupsApi.md#addGroupAttachment) | **POST** /groups/{group_id}/attachments | Add attachment to a group. will create a group if it does not exist.
-[**deleteGroupAttachment**](GroupsApi.md#deleteGroupAttachment) | **DELETE** /groups/{group_id}/attachments/{attach_id} | Hard delete group attachment
-[**getGroup**](GroupsApi.md#getGroup) | **GET** /groups/{group_id} | Get group, group context and group context owners info
-[**getGroupAttachment**](GroupsApi.md#getGroupAttachment) | **GET** /groups/{group_id}/attachments/{attach_id} | Get group attachment
-[**getGroupAttachments**](GroupsApi.md#getGroupAttachments) | **GET** /groups/{group_id}/attachments | Get all attachments
-[**groupsGroupIdPut**](GroupsApi.md#groupsGroupIdPut) | **PUT** /groups/{group_id} | upsert group, group context and group context owners info
-[**updateGroupAttachment**](GroupsApi.md#updateGroupAttachment) | **PATCH** /groups/{group_id}/attachments/{attach_id} | Patch a group attachment
-[**uploadGroupAttachment**](GroupsApi.md#uploadGroupAttachment) | **PUT** /groups/{group_id}/attachments/{attach_id}/original | Upload Submitted File
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**addGroupAttachment**](GroupsApi.md#addGroupAttachment) | **POST** /groups/{group_id}/attachments | Add attachment to a group. will create a group if it does not exist. |
+| [**deleteGroupAttachment**](GroupsApi.md#deleteGroupAttachment) | **DELETE** /groups/{group_id}/attachments/{attach_id} | Hard delete group attachment |
+| [**getGroup**](GroupsApi.md#getGroup) | **GET** /groups/{group_id} | Get group, group context and group context owners info |
+| [**getGroupAttachment**](GroupsApi.md#getGroupAttachment) | **GET** /groups/{group_id}/attachments/{attach_id} | Get group attachment |
+| [**getGroupAttachments**](GroupsApi.md#getGroupAttachments) | **GET** /groups/{group_id}/attachments | Get all attachments |
+| [**groupsGroupIdPut**](GroupsApi.md#groupsGroupIdPut) | **PUT** /groups/{group_id} | upsert group, group context and group context owners info |
+| [**updateGroupAttachment**](GroupsApi.md#updateGroupAttachment) | **PATCH** /groups/{group_id}/attachments/{attach_id} | Patch a group attachment |
+| [**uploadGroupAttachment**](GroupsApi.md#uploadGroupAttachment) | **PUT** /groups/{group_id}/attachments/{attach_id}/original | Upload Submitted File |
 
 
 <a name="addGroupAttachment"></a>
@@ -62,12 +62,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
- **data** | [**AddGroupAttachmentRequest**](AddGroupAttachmentRequest.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
+| **data** | [**AddGroupAttachmentRequest**](AddGroupAttachmentRequest.md)|  | |
 
 ### Return type
 
@@ -85,8 +85,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Successfully add attachment |  -  |
-**0** | An Error Occurred |  -  |
+| **201** | Successfully add attachment |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="deleteGroupAttachment"></a>
 # **deleteGroupAttachment**
@@ -135,12 +135,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
- **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
+| **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  | |
 
 ### Return type
 
@@ -158,8 +158,8 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Attachment successfully deleted |  -  |
-**0** | An Error Occurred |  -  |
+| **204** | Attachment successfully deleted |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="getGroup"></a>
 # **getGroup**
@@ -208,11 +208,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
 
 ### Return type
 
@@ -230,8 +230,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully get AggregateGroup |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully get AggregateGroup |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="getGroupAttachment"></a>
 # **getGroupAttachment**
@@ -281,12 +281,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
- **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
+| **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  | |
 
 ### Return type
 
@@ -304,8 +304,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully get attachment |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully get attachment |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="getGroupAttachments"></a>
 # **getGroupAttachments**
@@ -354,11 +354,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
 
 ### Return type
 
@@ -376,8 +376,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully get attachments |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully get attachments |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="groupsGroupIdPut"></a>
 # **groupsGroupIdPut**
@@ -427,12 +427,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
- **data** | [**AggregateGroup**](AggregateGroup.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
+| **data** | [**AggregateGroup**](AggregateGroup.md)|  | |
 
 ### Return type
 
@@ -450,8 +450,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully upssert group, group context and group context owners |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully upssert group, group context and group context owners |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="updateGroupAttachment"></a>
 # **updateGroupAttachment**
@@ -502,13 +502,13 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| group_id |
- **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  |
- **data** | [**AddGroupAttachmentRequest**](AddGroupAttachmentRequest.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| group_id | |
+| **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  | |
+| **data** | [**AddGroupAttachmentRequest**](AddGroupAttachmentRequest.md)|  | |
 
 ### Return type
 
@@ -526,8 +526,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully get attachment |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully get attachment |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="uploadGroupAttachment"></a>
 # **uploadGroupAttachment**
@@ -579,14 +579,14 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **groupId** | **String**| The Group ID (required to already exist)  |
- **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  |
- **contentDisposition** | **String**| *must include the \&quot;filename\&quot; parameter, e.g. &#x60;inline; filename&#x3D;\&quot;MyFile.docx\&quot;&#x60;  |
- **_file** | **Object**| the attachment file |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **groupId** | **String**| The Group ID (required to already exist)  | |
+| **attachId** | **String**| The attachment ID (returned from a successful group attachment request)  | |
+| **contentDisposition** | **String**| *must include the \&quot;filename\&quot; parameter, e.g. &#x60;inline; filename&#x3D;\&quot;MyFile.docx\&quot;&#x60;  | |
+| **_file** | **Object**| the attachment file | |
 
 ### Return type
 
@@ -604,9 +604,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**202** | Success message indicating successful PUT request for a submission upload  |  -  |
-**400** | Invalid submission file size, Submission file must be &gt; than 0 MB and &lt;&#x3D; to 100 MB |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **202** | Success message indicating successful PUT request for a submission upload  |  -  |
+| **400** | Invalid submission file size, Submission file must be &gt; than 0 MB and &lt;&#x3D; to 100 MB |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 

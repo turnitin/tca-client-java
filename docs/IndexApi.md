@@ -2,10 +2,10 @@
 
 All URIs are relative to *https://app-us.turnitin.com/api/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getIndexStatus**](IndexApi.md#getIndexStatus) | **GET** /submissions/{id}/index | Return index state of submission
-[**indexSubmission**](IndexApi.md#indexSubmission) | **PUT** /submissions/{id}/index | Index and return index state of submission
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**getIndexStatus**](IndexApi.md#getIndexStatus) | **GET** /submissions/{id}/index | Return index state of submission |
+| [**indexSubmission**](IndexApi.md#indexSubmission) | **PUT** /submissions/{id}/index | Index and return index state of submission |
 
 
 <a name="getIndexStatus"></a>
@@ -55,11 +55,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  | |
 
 ### Return type
 
@@ -77,10 +77,10 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Index state of submission |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Submission has not been completed yet |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Index state of submission |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Submission has not been completed yet |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="indexSubmission"></a>
 # **indexSubmission**
@@ -129,11 +129,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  | |
 
 ### Return type
 
@@ -151,9 +151,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successfully indexed submission |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Successfully indexed submission |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 

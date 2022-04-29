@@ -6,9 +6,9 @@ Object returned for add group attachment.
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **String** | Attachment uuid |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**id** | **String** | Attachment uuid |  [optional] |
 
 
 

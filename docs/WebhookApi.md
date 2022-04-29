@@ -2,13 +2,13 @@
 
 All URIs are relative to *https://app-us.turnitin.com/api/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteWebhook**](WebhookApi.md#deleteWebhook) | **DELETE** /webhooks/{id} | Delete Webhook endpoint
-[**getWebhook**](WebhookApi.md#getWebhook) | **GET** /webhooks/{id} | Get Webhook endpoint info
-[**updateWebhook**](WebhookApi.md#updateWebhook) | **PATCH** /webhooks/{id} | Update Webhook endpoint info
-[**webhooksGet**](WebhookApi.md#webhooksGet) | **GET** /webhooks | List registered Webhook endpoints
-[**webhooksPost**](WebhookApi.md#webhooksPost) | **POST** /webhooks | Register a Webhook endpoint
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**deleteWebhook**](WebhookApi.md#deleteWebhook) | **DELETE** /webhooks/{id} | Delete Webhook endpoint |
+| [**getWebhook**](WebhookApi.md#getWebhook) | **GET** /webhooks/{id} | Get Webhook endpoint info |
+| [**updateWebhook**](WebhookApi.md#updateWebhook) | **PATCH** /webhooks/{id} | Update Webhook endpoint info |
+| [**webhooksGet**](WebhookApi.md#webhooksGet) | **GET** /webhooks | List registered Webhook endpoints |
+| [**webhooksPost**](WebhookApi.md#webhooksPost) | **POST** /webhooks | Register a Webhook endpoint |
 
 
 <a name="deleteWebhook"></a>
@@ -57,11 +57,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **id** | **String**|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **id** | **String**|  | |
 
 ### Return type
 
@@ -79,9 +79,9 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Success |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **204** | Success |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="getWebhook"></a>
 # **getWebhook**
@@ -130,11 +130,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **id** | **String**|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **id** | **String**|  | |
 
 ### Return type
 
@@ -152,9 +152,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Success |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="updateWebhook"></a>
 # **updateWebhook**
@@ -204,12 +204,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **id** | **String**|  |
- **data** | [**WebhookPathRequest**](WebhookPathRequest.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **id** | **String**|  | |
+| **data** | [**WebhookPathRequest**](WebhookPathRequest.md)|  | |
 
 ### Return type
 
@@ -227,9 +227,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Success |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="webhooksGet"></a>
 # **webhooksGet**
@@ -277,10 +277,10 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
 
 ### Return type
 
@@ -298,9 +298,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Success |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="webhooksPost"></a>
 # **webhooksPost**
@@ -349,11 +349,11 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **data** | [**WebhookWithSecret**](WebhookWithSecret.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **data** | [**WebhookWithSecret**](WebhookWithSecret.md)|  | |
 
 ### Return type
 
@@ -371,7 +371,7 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Success |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **201** | Success |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 

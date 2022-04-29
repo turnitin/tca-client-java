@@ -6,14 +6,14 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**submitter** | [**Users**](Users.md) |  |  [optional]
-**owners** | [**List&lt;Users&gt;**](Users.md) |  |  [optional]
-**group** | [**Group**](Group.md) |  |  [optional]
-**groupContext** | [**GroupContext**](GroupContext.md) |  |  [optional]
-**originalSubmittedTime** | **OffsetDateTime** | Optional original submision date |  [optional]
-**custom** | **String** | custom metadata |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**submitter** | [**Users**](Users.md) |  |  [optional] |
+|**owners** | [**List&lt;Users&gt;**](Users.md) |  |  [optional] |
+|**group** | [**Group**](Group.md) |  |  [optional] |
+|**groupContext** | [**GroupContext**](GroupContext.md) |  |  [optional] |
+|**originalSubmittedTime** | **OffsetDateTime** | Optional original submision date |  [optional] |
+|**custom** | **String** | custom metadata |  [optional] |
 
 
 

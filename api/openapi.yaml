@@ -27,7 +27,7 @@ info:
     \ is complete\n     * The status of the *report* will also be updated to `COMPLETE`\n\
     \  *  Request a URL with parameters to view the Similarity Report\n"
   title: Turnitin Core API
-  version: 1.0.241
+  version: 1.0.246
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -242,7 +242,7 @@ paths:
       tags:
       - EULA
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /eula/{version_id}/accept/{user_id}:
     get:
@@ -502,7 +502,7 @@ paths:
       tags:
       - Submission
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /submissions/{id}/original:
     put:
@@ -603,7 +603,7 @@ paths:
       tags:
       - Submission
       x-codegen-request-body-name: file
-      x-contentType: binary/octet-stream
+      x-content-type: binary/octet-stream
       x-accepts: application/json
   /submissions/{id}:
     delete:
@@ -939,7 +939,7 @@ paths:
       tags:
       - Similarity
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /submissions/{id}/viewer-url:
     post:
@@ -1010,7 +1010,7 @@ paths:
       tags:
       - Similarity
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /submissions/{id}/similarity/pdf:
     post:
@@ -1694,7 +1694,7 @@ paths:
       tags:
       - Webhook
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /webhooks/{id}:
     delete:
@@ -1859,7 +1859,7 @@ paths:
       tags:
       - Webhook
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /groups/{group_id}:
     get:
@@ -1991,7 +1991,7 @@ paths:
       tags:
       - Groups
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /groups/{group_id}/attachments:
     get:
@@ -2115,7 +2115,7 @@ paths:
       tags:
       - Groups
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /groups/{group_id}/attachments/{attach_id}/original:
     put:
@@ -2216,7 +2216,7 @@ paths:
       tags:
       - Groups
       x-codegen-request-body-name: file
-      x-contentType: binary/octet-stream
+      x-content-type: binary/octet-stream
       x-accepts: application/json
   /groups/{group_id}/attachments/{attach_id}:
     delete:
@@ -2390,7 +2390,7 @@ paths:
       tags:
       - Groups
       x-codegen-request-body-name: data
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   parameters:
@@ -2823,8 +2823,8 @@ components:
             exclude_bibliography: true
             exclude_crossref: true
         access_options:
-        - Native
-        - Native
+        - NATIVE
+        - NATIVE
         product_name: product_name
         tenant:
           require_eula: true
@@ -2838,9 +2838,9 @@ components:
         access_options:
           items:
             enum:
-            - Native
+            - NATIVE
             - CORE_API
-            - Draft Coach
+            - DRAFT_COACH
             type: string
           type: array
       type: object

@@ -2,9 +2,9 @@
 
 All URIs are relative to *https://app-us.turnitin.com/api/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**featuresEnabledGet**](FeaturesApi.md#featuresEnabledGet) | **GET** /features-enabled | Get information about what features are allowed by the current license
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**featuresEnabledGet**](FeaturesApi.md#featuresEnabledGet) | **GET** /features-enabled | Get information about what features are allowed by the current license |
 
 
 <a name="featuresEnabledGet"></a>
@@ -53,10 +53,10 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
 
 ### Return type
 
@@ -74,8 +74,8 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | List of available features |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | List of available features |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 

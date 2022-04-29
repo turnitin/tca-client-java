@@ -2,12 +2,12 @@
 
 All URIs are relative to *https://app-us.turnitin.com/api/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**eulaVersionIdAcceptPost**](EulaApi.md#eulaVersionIdAcceptPost) | **POST** /eula/{version_id}/accept | Accepts a particular EULA version on behalf of an external user
-[**eulaVersionIdAcceptUserIdGet**](EulaApi.md#eulaVersionIdAcceptUserIdGet) | **GET** /eula/{version_id}/accept/{user_id} | Queries the acceptences of a particular EULA version on behalf of an external user
-[**eulaVersionIdGet**](EulaApi.md#eulaVersionIdGet) | **GET** /eula/{version_id} | Gets information about a particular EULA version
-[**eulaVersionIdViewGet**](EulaApi.md#eulaVersionIdViewGet) | **GET** /eula/{version_id}/view | Gets the text of a particular EULA version
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**eulaVersionIdAcceptPost**](EulaApi.md#eulaVersionIdAcceptPost) | **POST** /eula/{version_id}/accept | Accepts a particular EULA version on behalf of an external user |
+| [**eulaVersionIdAcceptUserIdGet**](EulaApi.md#eulaVersionIdAcceptUserIdGet) | **GET** /eula/{version_id}/accept/{user_id} | Queries the acceptences of a particular EULA version on behalf of an external user |
+| [**eulaVersionIdGet**](EulaApi.md#eulaVersionIdGet) | **GET** /eula/{version_id} | Gets information about a particular EULA version |
+| [**eulaVersionIdViewGet**](EulaApi.md#eulaVersionIdViewGet) | **GET** /eula/{version_id}/view | Gets the text of a particular EULA version |
 
 
 <a name="eulaVersionIdAcceptPost"></a>
@@ -58,12 +58,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  |
- **data** | [**EulaAcceptRequest**](EulaAcceptRequest.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  | |
+| **data** | [**EulaAcceptRequest**](EulaAcceptRequest.md)|  | |
 
 ### Return type
 
@@ -81,11 +81,11 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | A EULA acceptence response |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | A EULA acceptence response |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="eulaVersionIdAcceptUserIdGet"></a>
 # **eulaVersionIdAcceptUserIdGet**
@@ -135,12 +135,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  |
- **userId** | **String**| The user associated with the EULA status  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  | |
+| **userId** | **String**| The user associated with the EULA status  | |
 
 ### Return type
 
@@ -158,11 +158,11 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Array of EULA acceptence responses for the specified version (one per language) |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Array of EULA acceptence responses for the specified version (one per language) |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="eulaVersionIdGet"></a>
 # **eulaVersionIdGet**
@@ -212,12 +212,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  |
- **lang** | **String**| The desired language of the specified EULA version | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  | |
+| **lang** | **String**| The desired language of the specified EULA version | [optional] |
 
 ### Return type
 
@@ -235,11 +235,11 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Version data. A null value for valid_until indicates no expiration of the EULA version |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | Version data. A null value for valid_until indicates no expiration of the EULA version |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
 <a name="eulaVersionIdViewGet"></a>
 # **eulaVersionIdViewGet**
@@ -289,12 +289,12 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used |
- **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used |
- **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  |
- **lang** | **String**| The desired language of the specified EULA version | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
+| **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
+| **versionId** | **String**| The EULA version ID (or &#x60;latest&#x60;)  | |
+| **lang** | **String**| The desired language of the specified EULA version | [optional] |
 
 ### Return type
 
@@ -312,9 +312,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | HTML Text of the desired EULA version |  -  |
-**400** | Request is malformed or missing required data |  -  |
-**403** | Not properly authenticated |  -  |
-**429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
-**0** | An Error Occurred |  -  |
+| **200** | HTML Text of the desired EULA version |  -  |
+| **400** | Request is malformed or missing required data |  -  |
+| **403** | Not properly authenticated |  -  |
+| **429** | Too many requests have been made in a short amount of time, please wait for a bit a try again.  |  -  |
+| **0** | An Error Occurred |  -  |
 
