@@ -1,6 +1,6 @@
 
 
-# WebhooksMetadata
+# SubmissionCompleteWebhookRequestAllOfMetadata
 
 
 ## Properties

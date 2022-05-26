@@ -309,7 +309,7 @@ public class Example {
 
 <a name="getGroupAttachments"></a>
 # **getGroupAttachments**
-> InlineResponse200 getGroupAttachments(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId)
+> GetGroupAttachments200Response getGroupAttachments(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId)
 
 Get all attachments
 
@@ -339,7 +339,7 @@ public class Example {
     String xTurnitinIntegrationVersion = "v1.0.2"; // String | the version of the integration platform being used
     String groupId = "groupId_example"; // String | group_id
     try {
-      InlineResponse200 result = apiInstance.getGroupAttachments(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId);
+      GetGroupAttachments200Response result = apiInstance.getGroupAttachments(xTurnitinIntegrationName, xTurnitinIntegrationVersion, groupId);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling GroupsApi#getGroupAttachments");
@@ -362,7 +362,7 @@ public class Example {
 
 ### Return type
 
-[**InlineResponse200**](InlineResponse200.md)
+[**GetGroupAttachments200Response**](GetGroupAttachments200Response.md)
 
 ### Authorization
 

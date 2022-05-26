@@ -27,7 +27,9 @@
 |---- | -----|
 | CREATED | &quot;CREATED&quot; |
 | PROCESSING | &quot;PROCESSING&quot; |
-| COMPLETED | &quot;COMPLETED&quot; |
+| COMPLETE | &quot;COMPLETE&quot; |
+| DELETED | &quot;DELETED&quot; |
+| ERROR | &quot;ERROR&quot; |
 
 
 

@@ -1,8 +1,8 @@
 # openapi-java-client
 
 Turnitin Core API
-- API version: 1.0.246
-  - Build date: 2022-04-29T18:43:07.985965Z[Etc/UTC]
+- API version: 1.0.249
+  - Build date: 2022-05-26T17:20:58.684312Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
@@ -67,7 +67,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.openapitools</groupId>
   <artifactId>openapi-java-client</artifactId>
-  <version>1.0.246</version>
+  <version>1.0.249</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -83,7 +83,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.0.246"
+     implementation "org.openapitools:openapi-java-client:1.0.249"
   }
 ```
 
@@ -97,7 +97,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.246.jar`
+* `target/openapi-java-client-1.0.249.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -201,17 +201,18 @@ Class | Method | HTTP request | Description
  - [FeaturesSimilarityViewSettings](docs/FeaturesSimilarityViewSettings.md)
  - [FeaturesTenant](docs/FeaturesTenant.md)
  - [FeaturesViewerModes](docs/FeaturesViewerModes.md)
+ - [GetGroupAttachments200Response](docs/GetGroupAttachments200Response.md)
  - [Group](docs/Group.md)
  - [GroupAttachmentResponse](docs/GroupAttachmentResponse.md)
  - [GroupContext](docs/GroupContext.md)
  - [IndexStateSettings](docs/IndexStateSettings.md)
  - [IndexingSettings](docs/IndexingSettings.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineResponse200](docs/InlineResponse200.md)
+ - [PDFStatusWebhookRequest](docs/PDFStatusWebhookRequest.md)
  - [PdfStatusResponse](docs/PdfStatusResponse.md)
  - [RateLimitError](docs/RateLimitError.md)
  - [RequestPdfResponse](docs/RequestPdfResponse.md)
  - [Sidebar](docs/Sidebar.md)
+ - [SimilarityCompleteWebhookRequest](docs/SimilarityCompleteWebhookRequest.md)
  - [SimilarityGenerationSettings](docs/SimilarityGenerationSettings.md)
  - [SimilarityMetadata](docs/SimilarityMetadata.md)
  - [SimilarityMetadataAllOf](docs/SimilarityMetadataAllOf.md)
@@ -230,6 +231,9 @@ Class | Method | HTTP request | Description
  - [SubmissionAllOf](docs/SubmissionAllOf.md)
  - [SubmissionBase](docs/SubmissionBase.md)
  - [SubmissionBaseMetadata](docs/SubmissionBaseMetadata.md)
+ - [SubmissionCompleteWebhookRequest](docs/SubmissionCompleteWebhookRequest.md)
+ - [SubmissionCompleteWebhookRequestAllOf](docs/SubmissionCompleteWebhookRequestAllOf.md)
+ - [SubmissionCompleteWebhookRequestAllOfMetadata](docs/SubmissionCompleteWebhookRequestAllOfMetadata.md)
  - [SubmissionSizeError](docs/SubmissionSizeError.md)
  - [SuccessMessage](docs/SuccessMessage.md)
  - [Users](docs/Users.md)
@@ -240,7 +244,6 @@ Class | Method | HTTP request | Description
  - [WebhookPathRequest](docs/WebhookPathRequest.md)
  - [WebhookWithSecret](docs/WebhookWithSecret.md)
  - [WebhookWithSecretAllOf](docs/WebhookWithSecretAllOf.md)
- - [WebhooksMetadata](docs/WebhooksMetadata.md)
 
 
 ## Documentation for Authorization

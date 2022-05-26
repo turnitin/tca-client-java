@@ -27,7 +27,7 @@ info:
     \ is complete\n     * The status of the *report* will also be updated to `COMPLETE`\n\
     \  *  Request a URL with parameters to view the Similarity Report\n"
   title: Turnitin Core API
-  version: 1.0.246
+  version: 1.0.249
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -1456,15 +1456,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      allOf:
-                      - $ref: '#/components/schemas/Submission'
-                      - properties:
-                          metadata:
-                            properties:
-                              custom:
-                                type: string
-                            type: object
-                        type: object
+                      $ref: '#/components/schemas/SubmissionCompleteWebhook_request'
                 required: true
               responses:
                 "200":
@@ -1496,15 +1488,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      allOf:
-                      - $ref: '#/components/schemas/SimilarityMetadata'
-                      - properties:
-                          metadata:
-                            properties:
-                              custom:
-                                type: string
-                            type: object
-                        type: object
+                      $ref: '#/components/schemas/SimilarityCompleteWebhook_request'
                 required: true
               responses:
                 "200":
@@ -1536,15 +1520,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      allOf:
-                      - $ref: '#/components/schemas/SimilarityMetadata'
-                      - properties:
-                          metadata:
-                            properties:
-                              custom:
-                                type: string
-                            type: object
-                        type: object
+                      $ref: '#/components/schemas/SimilarityCompleteWebhook_request'
                 required: true
               responses:
                 "200":
@@ -1573,27 +1549,10 @@ paths:
                   type: string
                 style: simple
               requestBody:
-                $ref: '#/components/requestBodies/inline_object'
                 content:
                   application/json:
                     schema:
-                      properties:
-                        status:
-                          description: The requesting Pdf status
-                          enum:
-                          - SUCCESS
-                          - PENDING
-                          - FAILED
-                          type: string
-                        id:
-                          description: the PDF ID
-                          type: string
-                        submission_id:
-                          description: the associated submission ID
-                          type: string
-                        metadata:
-                          $ref: '#/components/schemas/_webhooks_metadata'
-                      type: object
+                      $ref: '#/components/schemas/PDFStatusWebhook_request'
                 required: true
               responses:
                 "200":
@@ -2029,7 +1988,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/GetGroupAttachments_200_response'
           description: Successfully get attachments
         default:
           content:
@@ -2434,13 +2393,6 @@ components:
       schema:
         type: string
       style: simple
-  requestBodies:
-    inline_object:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   responses:
     ErrorResponse:
       content:
@@ -3590,12 +3542,25 @@ components:
         submission_auto_excludes:
           type: boolean
       type: object
-    _webhooks_metadata:
+    SubmissionCompleteWebhook_request_allOf_metadata:
       properties:
         custom:
           type: string
       type: object
-    inline_object:
+    SubmissionCompleteWebhook_request_allOf:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/SubmissionCompleteWebhook_request_allOf_metadata'
+      type: object
+    SubmissionCompleteWebhook_request:
+      allOf:
+      - $ref: '#/components/schemas/Submission'
+      - $ref: '#/components/schemas/SubmissionCompleteWebhook_request_allOf'
+    SimilarityCompleteWebhook_request:
+      allOf:
+      - $ref: '#/components/schemas/SimilarityMetadata'
+      - $ref: '#/components/schemas/SubmissionCompleteWebhook_request_allOf'
+    PDFStatusWebhook_request:
       properties:
         status:
           description: The requesting Pdf status
@@ -3611,9 +3576,9 @@ components:
           description: the associated submission ID
           type: string
         metadata:
-          $ref: '#/components/schemas/_webhooks_metadata'
+          $ref: '#/components/schemas/SubmissionCompleteWebhook_request_allOf_metadata'
       type: object
-    inline_response_200:
+    GetGroupAttachments_200_response:
       example:
         attachments:
         - template: true
@@ -3703,6 +3668,8 @@ components:
           - CREATED
           - PROCESSING
           - COMPLETE
+          - DELETED
+          - ERROR
           type: string
         created_time:
           description: |
@@ -3723,7 +3690,9 @@ components:
           enum:
           - CREATED
           - PROCESSING
-          - COMPLETED
+          - COMPLETE
+          - DELETED
+          - ERROR
           type: string
         id:
           description: the unique ID of the submission
