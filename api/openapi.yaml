@@ -1,33 +1,35 @@
 openapi: 3.0.1
 info:
-  description: "Turnitin Core API (TCA) provides direct API access to the core functionality\
-    \ provided by Turnitin. TCA supports file submission, similarity report generation,\
-    \ group management, and visualization of report matches via Cloud Viewer or PDF\
-    \ download.\nBelow is the full flow to successfully set up an integration scope,\
-    \ an API Key, and make calls to TCA. Integration Scope and API Key management\
-    \ is done via the Admin Console UI by logging in as an admin user. For more details,\
-    \ go to our [developer portal documentation page](https://developers.turnitin.com/docs).\n\
-    ## Integration Scope and API Key Management\nTCA API calls must provide an API\
-    \ Key for authentication, so you must first have at least one integration scope\
-    \ associated with at least one API Key to use TCA.\n### Admin Console UI\nFirst,\
-    \ login to Admin Console UI as an *Admin* user with permission to create Integration\
-    \ Scopes, under a tenant that is licensed to use the TCA product\nIntegration\
-    \ Scopes (you can create a new one, or add keys to existing)\n\n  * Click `Integrations`\
-    \ in the side bar --> `+ Add Integration` at top the top of the page --> Enter\
-    \ a name --> `Add` Button\n  API Keys\n  * Click `Integrations` in the side bar\
-    \ --> `Create API Key` Button next to a given Integration Scope -->\n  Enter a\
-    \ name --> click `Create and View button`\n  * Copy/Save the key manually or click\
-    \ save to clipboard button to copy it (this is the only time it will show)\n\n\
-    ## TCA Flow\n\n  *  Register a webhook\n  *  Create a submission\n  *  Upload\
-    \ a file for the submission\n  *  Wait for the submission upload to process\n\
-    \     * If you registered a webhook, a callback will be sent to it when upload\
-    \ is complete\n     * The status of the *submission* will also update to `COMPLETE`\n\
-    \  *  Request a Similarity Report\n  *  Wait for similarity report to process\n\
-    \     * If you registered a webhook, a callback will be sent to it when report\
-    \ is complete\n     * The status of the *report* will also be updated to `COMPLETE`\n\
-    \  *  Request a URL with parameters to view the Similarity Report\n"
+  description: |
+    Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
+    Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
+    ## Integration Scope and API Key Management
+    TCA API calls must provide an API Key for authentication, so you must first have at least one integration scope associated with at least one API Key to use TCA.
+    ### Admin Console UI
+    First, login to Admin Console UI as an *Admin* user with permission to create Integration Scopes, under a tenant that is licensed to use the TCA product
+    Integration Scopes (you can create a new one, or add keys to existing)
+
+      * Click `Integrations` in the side bar --> `+ Add Integration` at top the top of the page --> Enter a name --> `Add` Button
+      API Keys
+      * Click `Integrations` in the side bar --> `Create API Key` Button next to a given Integration Scope -->
+      Enter a name --> click `Create and View button`
+      * Copy/Save the key manually or click save to clipboard button to copy it (this is the only time it will show)
+
+    ## TCA Flow
+
+      *  Register a webhook
+      *  Create a submission
+      *  Upload a file for the submission
+      *  Wait for the submission upload to process
+         * If you registered a webhook, a callback will be sent to it when upload is complete
+         * The status of the *submission* will also update to `COMPLETE`
+      *  Request a Similarity Report
+      *  Wait for similarity report to process
+         * If you registered a webhook, a callback will be sent to it when report is complete
+         * The status of the *report* will also be updated to `COMPLETE`
+      *  Request a URL with parameters to view the Similarity Report
   title: Turnitin Core API
-  version: 1.0.249
+  version: 1.0.258
 externalDocs:
   description: Developer Portal Documentation page
   url: https://developers.turnitin.com/docs
@@ -90,8 +92,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -162,8 +165,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -230,8 +234,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -306,8 +311,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -378,8 +384,9 @@ paths:
             application/html:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/html:
@@ -490,8 +497,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -545,8 +553,8 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "*must include the \"filename\" parameter, e.g. `inline; filename=\"\
-          MyFile.docx\"`. To support UTF-8 filenames, you must URL encode the header\n"
+      - description: |
+          *must include the "filename" parameter, e.g. `inline; filename="MyFile.docx"`. To support UTF-8 filenames, you must URL encode the header
         explode: false
         in: header
         name: Content-Disposition
@@ -591,8 +599,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -637,11 +646,8 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Accepts true or false indicating either hard or soft delete.\
-          \ A soft delete removes the associated submission report/index and changes\
-          \ the saved submission state to DELETED. A hard deletion completely removes\
-          \ the submission information from Panda and TCA and removes the associated\
-          \ report/index, which can not be recovered.\n"
+      - description: |
+          Accepts true or false indicating either hard or soft delete. A soft delete removes the associated submission report/index and changes the saved submission state to DELETED. A hard deletion completely removes the submission information from Panda and TCA and removes the associated report/index, which can not be recovered.
         explode: true
         in: query
         name: hard
@@ -726,8 +732,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -788,8 +795,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -850,8 +858,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -927,8 +936,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -998,8 +1008,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1044,6 +1055,12 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateSimilarityPDF'
+        required: true
       responses:
         "200":
           content:
@@ -1082,8 +1099,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1093,6 +1111,7 @@ paths:
       summary: Request Pdf download and returns the Pdf Id
       tags:
       - Similarity
+      x-content-type: application/json
       x-accepts: application/json
   /submissions/{id}/similarity/pdf/{pdf_id}:
     get:
@@ -1126,7 +1145,8 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)\n"
+      - description: |
+          The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)
         explode: false
         in: path
         name: pdf_id
@@ -1167,8 +1187,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1211,7 +1232,8 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)\n"
+      - description: |
+          The Pdf ID (returned upon a successful POST to /submissions/{submission_id}/similarity/pdf)
         explode: false
         in: path
         name: pdf_id
@@ -1252,8 +1274,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1350,6 +1373,14 @@ paths:
         schema:
           type: string
         style: simple
+      - description: asynchronous request
+        explode: true
+        in: query
+        name: asynchronous
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -1368,8 +1399,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1416,8 +1448,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1641,8 +1674,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1694,8 +1728,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1747,8 +1782,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -1806,8 +1842,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -2117,8 +2154,8 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "*must include the \"filename\" parameter, e.g. `inline; filename=\"\
-          MyFile.docx\"`\n"
+      - description: |
+          *must include the "filename" parameter, e.g. `inline; filename="MyFile.docx"`
         explode: false
         in: header
         name: Content-Disposition
@@ -2163,8 +2200,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RateLimitError'
-          description: "Too many requests have been made in a short amount of time,\
-            \ please wait for\na bit a try again.\n"
+          description: |
+            Too many requests have been made in a short amount of time, please wait for
+            a bit a try again.
         default:
           content:
             application/json:
@@ -2412,8 +2450,9 @@ components:
         '*/*':
           schema:
             $ref: '#/components/schemas/RateLimitError'
-      description: "Too many requests have been made in a short amount of time, please\
-        \ wait for\na bit a try again.\n"
+      description: |
+        Too many requests have been made in a short amount of time, please wait for
+        a bit a try again.
     RequestPdfResponse:
       content:
         '*/*':
@@ -2458,10 +2497,8 @@ components:
         Success message indicating successful PUT request for a submission upload
   schemas:
     SubmissionBase:
-      description: "A Submission is the base object on which other services (such\
-        \ as similarity) are offered. In order to use other services a Submission\
-        \ must first be created and successfully process, then other service objects\
-        \ can be created.\n"
+      description: |
+        A Submission is the base object on which other services (such as similarity) are offered. In order to use other services a Submission must first be created and successfully process, then other service objects can be created.
       example:
         owner: owner
         submitter: submitter
@@ -2883,6 +2920,8 @@ components:
           given_name: given_name
           family_name: family_name
         viewer_user_id: viewer_user_id
+        annotations:
+          enabled: true
         viewer_permissions:
           may_view_document_details_panel: true
           may_view_sections_exclusion_panel: true
@@ -2939,6 +2978,47 @@ components:
           $ref: '#/components/schemas/Sidebar'
         similarity:
           $ref: '#/components/schemas/SimilaritySettings'
+        annotations:
+          $ref: '#/components/schemas/AnnotationsSettings'
+      type: object
+    GenerateSimilarityPDF:
+      example:
+        locale: ar-SA
+      properties:
+        locale:
+          description: two character locale language setting (e.g. 'en' or 'de') or
+            full value
+          enum:
+          - ar-SA
+          - cs-CZ
+          - de-DE
+          - el-GR
+          - en-US
+          - es-MX
+          - fi-FI
+          - fr-FR
+          - it-IT
+          - ja-JP
+          - ko-KR
+          - nl-NL
+          - pl-PL
+          - pt-BR
+          - ro-RO
+          - ru-RU
+          - sv-SE
+          - tr-TR
+          - vi-VN
+          - zh-CN
+          - zh-TW
+          type: string
+      type: object
+    AnnotationsSettings:
+      example:
+        enabled: true
+      properties:
+        enabled:
+          description: Used to enable annotations
+          type: boolean
       type: object
     SimilaritySettings:
       example:
@@ -2966,9 +3046,8 @@ components:
         default_mode: similarity
       properties:
         default_mode:
-          description: "The default mode shown in the sidebar panel. The selected\
-            \ mode must be enabled in the tenant's license, request parameter, as\
-            \ well as the viewer's permission. The default mode is similarity.\n"
+          description: |
+            The default mode shown in the sidebar panel. The selected mode must be enabled in the tenant's license, request parameter, as well as the viewer's permission. The default mode is similarity.
           enum:
           - similarity
           - flags
@@ -3041,7 +3120,8 @@ components:
         is_indexed: true
       properties:
         is_indexed:
-          description: "If true, is_indexed displays the index state of submission.\n"
+          description: |
+            If true, is_indexed displays the index state of submission.
           type: boolean
       type: object
     WebhookWithSecret:
@@ -3295,70 +3375,68 @@ components:
         exclude_crossref: true
       properties:
         exclude_quotes:
-          description: "If set to true, text in quotes will not count as similar content\n"
+          description: |
+            If set to true, text in quotes will not count as similar content
           example: true
           type: boolean
         exclude_bibliography:
-          description: "If set to true, text in a bibliography section will not count\
-            \ as similar content\n"
+          description: |
+            If set to true, text in a bibliography section will not count as similar content
           example: true
           type: boolean
         exclude_citations:
-          description: "If set to true, text in citations will not count as similar\
-            \ content\n"
+          description: |
+            If set to true, text in citations will not count as similar content
           example: true
           type: boolean
         exclude_abstract:
-          description: "If set to true, text in the abstract section of the submission\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text in the abstract section of the submission will not count as similar content
           example: true
           type: boolean
         exclude_methods:
-          description: "If set to true, text in the method section of the submission\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text in the method section of the submission will not count as similar content
           example: true
           type: boolean
         exclude_small_matches:
-          description: "If set, similarity matches that match less than the specified\
-            \ amount of words will not count as similar content\n"
+          description: |
+            If set, similarity matches that match less than the specified amount of words will not count as similar content
           example: true
           type: boolean
         exclude_internet:
-          description: "If set to true, text matched to the internet collection will\
-            \ not count as similar content\n"
+          description: |
+            If set to true, text matched to the internet collection will not count as similar content
           example: true
           type: boolean
         exclude_publications:
-          description: "If set to true, text matched to the publications collection\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text matched to the publications collection will not count as similar content
           example: true
           type: boolean
         exclude_crossref:
-          description: "If set to true, text matched to the Crossref collection will\
-            \ not count as similar content\n"
+          description: |
+            If set to true, text matched to the Crossref collection will not count as similar content
           example: true
           type: boolean
         exclude_crossref_posted_content:
-          description: "If set to true, text matched to the Crossref Posted Content\
-            \ collection will not count as similar content\n"
+          description: |
+            If set to true, text matched to the Crossref Posted Content collection will not count as similar content
           example: true
           type: boolean
         exclude_submitted_works:
-          description: "If set to true, text matched to the submitted works collection\
-            \ will not count as similar content calculated as if submitted work was\
-            \ not part of the paper\n"
+          description: |
+            If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
           example: true
           type: boolean
         exclude_custom_sections:
-          description: "If set to true, text matched to the custom sections defined\
-            \ in the admin settings will not count as similar content calculated as\
-            \ if section was not part of the paper\n"
+          description: |
+            If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
           example: true
           type: boolean
         exclude_preprints:
-          description: "If set to true, it will exclude preprints. A preprint is a\
-            \ version of a scholarly or scientific paper that precedes formal peer\
-            \ review and publication in a peer-reviewed scholarly or scientific journal.\n"
+          description: |
+            If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
           example: true
           type: boolean
       type: object
@@ -3379,70 +3457,68 @@ components:
         exclude_crossref: true
       properties:
         exclude_quotes:
-          description: "If set to true, text in quotes will not count as similar content\n"
+          description: |
+            If set to true, text in quotes will not count as similar content
           example: true
           type: boolean
         exclude_bibliography:
-          description: "If set to true, text in a bibliography section will not count\
-            \ as similar content\n"
+          description: |
+            If set to true, text in a bibliography section will not count as similar content
           example: true
           type: boolean
         exclude_citations:
-          description: "If set to true, text in citations will not count as similar\
-            \ content\n"
+          description: |
+            If set to true, text in citations will not count as similar content
           example: true
           type: boolean
         exclude_abstract:
-          description: "If set to true, text in the abstract section of the submission\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text in the abstract section of the submission will not count as similar content
           example: true
           type: boolean
         exclude_methods:
-          description: "If set to true, text in the method section of the submission\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text in the method section of the submission will not count as similar content
           example: true
           type: boolean
         exclude_small_matches:
-          description: "If set, similarity matches that match less than the specified\
-            \ amount of words will not count as similar content\n"
+          description: |
+            If set, similarity matches that match less than the specified amount of words will not count as similar content
           example: 4
           type: integer
         exclude_internet:
-          description: "If set to true, text matched to the internet collection will\
-            \ not count as similar content\n"
+          description: |
+            If set to true, text matched to the internet collection will not count as similar content
           example: true
           type: boolean
         exclude_publications:
-          description: "If set to true, text matched to the publications collection\
-            \ will not count as similar content\n"
+          description: |
+            If set to true, text matched to the publications collection will not count as similar content
           example: true
           type: boolean
         exclude_crossref:
-          description: "If set to true, text matched to the Crossref collection will\
-            \ not count as similar content\n"
+          description: |
+            If set to true, text matched to the Crossref collection will not count as similar content
           example: true
           type: boolean
         exclude_crossref_posted_content:
-          description: "If set to true, text matched to the Crossref Posted Content\
-            \ collection will not count as similar content\n"
+          description: |
+            If set to true, text matched to the Crossref Posted Content collection will not count as similar content
           example: true
           type: boolean
         exclude_submitted_works:
-          description: "If set to true, text matched to the submitted works collection\
-            \ will not count as similar content calculated as if submitted work was\
-            \ not part of the paper\n"
+          description: |
+            If set to true, text matched to the submitted works collection will not count as similar content calculated as if submitted work was not part of the paper
           example: true
           type: boolean
         exclude_custom_sections:
-          description: "If set to true, text matched to the custom sections defined\
-            \ in the admin settings will not count as similar content calculated as\
-            \ if section was not part of the paper\n"
+          description: |
+            If set to true, text matched to the custom sections defined in the admin settings will not count as similar content calculated as if section was not part of the paper
           example: true
           type: boolean
         exclude_preprints:
-          description: "If set to true, it will exclude preprints. A preprint is a\
-            \ version of a scholarly or scientific paper that precedes formal peer\
-            \ review and publication in a peer-reviewed scholarly or scientific journal.\n"
+          description: |
+            If set to true, it will exclude preprints. A preprint is a version of a scholarly or scientific paper that precedes formal peer review and publication in a peer-reviewed scholarly or scientific journal.
           example: true
           type: boolean
       type: object
@@ -3677,6 +3753,7 @@ components:
           format: date-time
           type: string
       type: object
+      example: null
     Submission_allOf:
       properties:
         owner:
@@ -3737,6 +3814,7 @@ components:
             type: string
           type: array
       type: object
+      example: null
     SimilarityMetadata_allOf_top_matches:
       properties:
         name:
@@ -3761,6 +3839,7 @@ components:
           description: intitution name for matched SUBMITTED_WORK types
           type: string
       type: object
+      example: null
     SimilarityMetadata_allOf:
       properties:
         submission_id:
@@ -3793,6 +3872,7 @@ components:
       - top_matches
       - top_source_largest_matched_word_count
       type: object
+      example: null
     SimilaritySettings_modes:
       example:
         all_sources: true
@@ -3823,6 +3903,7 @@ components:
       required:
       - signing_secret
       type: object
+      example: null
     Webhook_allOf:
       properties:
         id:
@@ -3836,6 +3917,7 @@ components:
       required:
       - id
       type: object
+      example: null
   securitySchemes:
     api_key:
       in: header

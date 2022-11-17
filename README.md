@@ -1,8 +1,8 @@
 # openapi-java-client
 
 Turnitin Core API
-- API version: 1.0.249
-  - Build date: 2022-05-26T17:20:58.684312Z[Etc/UTC]
+- API version: 1.0.258
+  - Build date: 2022-11-17T18:44:23.150387Z[Etc/UTC]
 
 Turnitin Core API (TCA) provides direct API access to the core functionality provided by Turnitin. TCA supports file submission, similarity report generation, group management, and visualization of report matches via Cloud Viewer or PDF download.
 Below is the full flow to successfully set up an integration scope, an API Key, and make calls to TCA. Integration Scope and API Key management is done via the Admin Console UI by logging in as an admin user. For more details, go to our [developer portal documentation page](https://developers.turnitin.com/docs).
@@ -67,7 +67,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.openapitools</groupId>
   <artifactId>openapi-java-client</artifactId>
-  <version>1.0.249</version>
+  <version>1.0.258</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -83,7 +83,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.0.249"
+     implementation "org.openapitools:openapi-java-client:1.0.258"
   }
 ```
 
@@ -97,7 +97,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.249.jar`
+* `target/openapi-java-client-1.0.258.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -189,6 +189,7 @@ Class | Method | HTTP request | Description
  - [AddGroupAttachmentRequest](docs/AddGroupAttachmentRequest.md)
  - [AddGroupAttachmentResponse](docs/AddGroupAttachmentResponse.md)
  - [AggregateGroup](docs/AggregateGroup.md)
+ - [AnnotationsSettings](docs/AnnotationsSettings.md)
  - [AuthorMetadataOverride](docs/AuthorMetadataOverride.md)
  - [Error](docs/Error.md)
  - [Eula](docs/Eula.md)
@@ -201,6 +202,7 @@ Class | Method | HTTP request | Description
  - [FeaturesSimilarityViewSettings](docs/FeaturesSimilarityViewSettings.md)
  - [FeaturesTenant](docs/FeaturesTenant.md)
  - [FeaturesViewerModes](docs/FeaturesViewerModes.md)
+ - [GenerateSimilarityPDF](docs/GenerateSimilarityPDF.md)
  - [GetGroupAttachments200Response](docs/GetGroupAttachments200Response.md)
  - [Group](docs/Group.md)
  - [GroupAttachmentResponse](docs/GroupAttachmentResponse.md)

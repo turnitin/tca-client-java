@@ -44,62 +44,36 @@ import java.util.Set;
 import org.openapitools.client.JSON;
 
 /**
- * The generic object returned for errors. Updated for recent TCA changes.
+ * AnnotationsSettings
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-11-17T18:44:23.150387Z[Etc/UTC]")
-public class Error {
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
-  private String status;
+public class AnnotationsSettings {
+  public static final String SERIALIZED_NAME_ENABLED = "enabled";
+  @SerializedName(SERIALIZED_NAME_ENABLED)
+  private Boolean enabled;
 
-  public static final String SERIALIZED_NAME_MESSAGE = "message";
-  @SerializedName(SERIALIZED_NAME_MESSAGE)
-  private String message;
-
-  public Error() {
+  public AnnotationsSettings() {
   }
 
-  public Error status(String status) {
+  public AnnotationsSettings enabled(Boolean enabled) {
     
-    this.status = status;
+    this.enabled = enabled;
     return this;
   }
 
    /**
-   * an HTTP Response JobStatus Code
-   * @return status
+   * Used to enable annotations
+   * @return enabled
   **/
   @javax.annotation.Nullable
 
-  public String getStatus() {
-    return status;
+  public Boolean getEnabled() {
+    return enabled;
   }
 
 
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-
-  public Error message(String message) {
-    
-    this.message = message;
-    return this;
-  }
-
-   /**
-   * A message explaining what happened
-   * @return message
-  **/
-  @javax.annotation.Nullable
-
-  public String getMessage() {
-    return message;
-  }
-
-
-  public void setMessage(String message) {
-    this.message = message;
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
   }
 
 
@@ -112,22 +86,20 @@ public class Error {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Error error = (Error) o;
-    return Objects.equals(this.status, error.status) &&
-        Objects.equals(this.message, error.message);
+    AnnotationsSettings annotationsSettings = (AnnotationsSettings) o;
+    return Objects.equals(this.enabled, annotationsSettings.enabled);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, message);
+    return Objects.hash(enabled);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Error {\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("class AnnotationsSettings {\n");
+    sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -150,8 +122,7 @@ public class Error {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("status");
-    openapiFields.add("message");
+    openapiFields.add("enabled");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -161,27 +132,21 @@ public class Error {
   * Validates the JSON Object and throws an exception if issues found
   *
   * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Error
+  * @throws IOException if the JSON Object is invalid with respect to AnnotationsSettings
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!Error.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Error is not found in the empty JSON string", Error.openapiRequiredFields.toString()));
+        if (!AnnotationsSettings.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in AnnotationsSettings is not found in the empty JSON string", AnnotationsSettings.openapiRequiredFields.toString()));
         }
       }
 
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
-        if (!Error.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Error` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        if (!AnnotationsSettings.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AnnotationsSettings` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
-      }
-      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
-      }
-      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
       }
   }
 
@@ -189,22 +154,22 @@ public class Error {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!Error.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'Error' and its subtypes
+       if (!AnnotationsSettings.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'AnnotationsSettings' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<Error> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(Error.class));
+       final TypeAdapter<AnnotationsSettings> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(AnnotationsSettings.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<Error>() {
+       return (TypeAdapter<T>) new TypeAdapter<AnnotationsSettings>() {
            @Override
-           public void write(JsonWriter out, Error value) throws IOException {
+           public void write(JsonWriter out, AnnotationsSettings value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              elementAdapter.write(out, obj);
            }
 
            @Override
-           public Error read(JsonReader in) throws IOException {
+           public AnnotationsSettings read(JsonReader in) throws IOException {
              JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
@@ -215,18 +180,18 @@ public class Error {
   }
 
  /**
-  * Create an instance of Error given an JSON string
+  * Create an instance of AnnotationsSettings given an JSON string
   *
   * @param jsonString JSON string
-  * @return An instance of Error
-  * @throws IOException if the JSON string is invalid with respect to Error
+  * @return An instance of AnnotationsSettings
+  * @throws IOException if the JSON string is invalid with respect to AnnotationsSettings
   */
-  public static Error fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Error.class);
+  public static AnnotationsSettings fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AnnotationsSettings.class);
   }
 
  /**
-  * Convert an instance of Error to an JSON string
+  * Convert an instance of AnnotationsSettings to an JSON string
   *
   * @return JSON string
   */

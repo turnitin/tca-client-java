@@ -11,63 +11,38 @@
  */
 
 
-package org.openapitools.client;
+package org.openapitools.client.model;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
 
-public class ProgressRequestBody extends RequestBody {
+/**
+ * Model tests for AnnotationsSettings
+ */
+public class AnnotationsSettingsTest {
+    private final AnnotationsSettings model = new AnnotationsSettings();
 
-    private final RequestBody requestBody;
-
-    private final ApiCallback callback;
-
-    public ProgressRequestBody(RequestBody requestBody, ApiCallback callback) {
-        this.requestBody = requestBody;
-        this.callback = callback;
+    /**
+     * Model tests for AnnotationsSettings
+     */
+    @Test
+    public void testAnnotationsSettings() {
+        // TODO: test AnnotationsSettings
     }
 
-    @Override
-    public MediaType contentType() {
-        return requestBody.contentType();
+    /**
+     * Test the property 'enabled'
+     */
+    @Test
+    public void enabledTest() {
+        // TODO: test enabled
     }
 
-    @Override
-    public long contentLength() throws IOException {
-        return requestBody.contentLength();
-    }
-
-    @Override
-    public void writeTo(BufferedSink sink) throws IOException {
-        BufferedSink bufferedSink = Okio.buffer(sink(sink));
-        requestBody.writeTo(bufferedSink);
-        bufferedSink.flush();
-    }
-
-    private Sink sink(Sink sink) {
-        return new ForwardingSink(sink) {
-
-            long bytesWritten = 0L;
-            long contentLength = 0L;
-
-            @Override
-            public void write(Buffer source, long byteCount) throws IOException {
-                super.write(source, byteCount);
-                if (contentLength == 0) {
-                    contentLength = contentLength();
-                }
-
-                bytesWritten += byteCount;
-                callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
-            }
-        };
-    }
 }

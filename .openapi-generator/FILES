@@ -8,6 +8,7 @@ build.sbt
 docs/AddGroupAttachmentRequest.md
 docs/AddGroupAttachmentResponse.md
 docs/AggregateGroup.md
+docs/AnnotationsSettings.md
 docs/AuthorMetadataOverride.md
 docs/Error.md
 docs/Eula.md
@@ -22,6 +23,7 @@ docs/FeaturesSimilarity.md
 docs/FeaturesSimilarityViewSettings.md
 docs/FeaturesTenant.md
 docs/FeaturesViewerModes.md
+docs/GenerateSimilarityPDF.md
 docs/GetGroupAttachments200Response.md
 docs/Group.md
 docs/GroupAttachmentResponse.md
@@ -107,6 +109,7 @@ src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AddGroupAttachmentRequest.java
 src/main/java/org/openapitools/client/model/AddGroupAttachmentResponse.java
 src/main/java/org/openapitools/client/model/AggregateGroup.java
+src/main/java/org/openapitools/client/model/AnnotationsSettings.java
 src/main/java/org/openapitools/client/model/AuthorMetadataOverride.java
 src/main/java/org/openapitools/client/model/Error.java
 src/main/java/org/openapitools/client/model/Eula.java
@@ -119,6 +122,7 @@ src/main/java/org/openapitools/client/model/FeaturesSimilarity.java
 src/main/java/org/openapitools/client/model/FeaturesSimilarityViewSettings.java
 src/main/java/org/openapitools/client/model/FeaturesTenant.java
 src/main/java/org/openapitools/client/model/FeaturesViewerModes.java
+src/main/java/org/openapitools/client/model/GenerateSimilarityPDF.java
 src/main/java/org/openapitools/client/model/GetGroupAttachments200Response.java
 src/main/java/org/openapitools/client/model/Group.java
 src/main/java/org/openapitools/client/model/GroupAttachmentResponse.java
@@ -172,6 +176,7 @@ src/test/java/org/openapitools/client/api/WebhookApiTest.java
 src/test/java/org/openapitools/client/model/AddGroupAttachmentRequestTest.java
 src/test/java/org/openapitools/client/model/AddGroupAttachmentResponseTest.java
 src/test/java/org/openapitools/client/model/AggregateGroupTest.java
+src/test/java/org/openapitools/client/model/AnnotationsSettingsTest.java
 src/test/java/org/openapitools/client/model/AuthorMetadataOverrideTest.java
 src/test/java/org/openapitools/client/model/ErrorTest.java
 src/test/java/org/openapitools/client/model/EulaAcceptListItemTest.java
@@ -184,6 +189,7 @@ src/test/java/org/openapitools/client/model/FeaturesSimilarityTest.java
 src/test/java/org/openapitools/client/model/FeaturesSimilarityViewSettingsTest.java
 src/test/java/org/openapitools/client/model/FeaturesTenantTest.java
 src/test/java/org/openapitools/client/model/FeaturesViewerModesTest.java
+src/test/java/org/openapitools/client/model/GenerateSimilarityPDFTest.java
 src/test/java/org/openapitools/client/model/GetGroupAttachments200ResponseTest.java
 src/test/java/org/openapitools/client/model/GroupAttachmentResponseTest.java
 src/test/java/org/openapitools/client/model/GroupContextTest.java

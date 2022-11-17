@@ -84,7 +84,7 @@ public class Example {
 
 <a name="indexSubmission"></a>
 # **indexSubmission**
-> IndexStateSettings indexSubmission(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id)
+> IndexStateSettings indexSubmission(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, asynchronous)
 
 Index and return index state of submission
 
@@ -113,8 +113,9 @@ public class Example {
     String xTurnitinIntegrationName = "myintegration"; // String | a human readable string representing the type of integration being used
     String xTurnitinIntegrationVersion = "v1.0.2"; // String | the version of the integration platform being used
     String id = "id_example"; // String | The Submission ID (returned upon a successful POST to /submissions) 
+    Boolean asynchronous = true; // Boolean | asynchronous request
     try {
-      IndexStateSettings result = apiInstance.indexSubmission(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id);
+      IndexStateSettings result = apiInstance.indexSubmission(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, asynchronous);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling IndexApi#indexSubmission");
@@ -134,6 +135,7 @@ public class Example {
 | **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
 | **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
 | **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  | |
+| **asynchronous** | **Boolean**| asynchronous request | [optional] |
 
 ### Return type
 

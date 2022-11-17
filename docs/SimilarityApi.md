@@ -403,7 +403,7 @@ public class Example {
 
 <a name="requestSimilarityReportPdf"></a>
 # **requestSimilarityReportPdf**
-> RequestPdfResponse requestSimilarityReportPdf(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id)
+> RequestPdfResponse requestSimilarityReportPdf(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, generateSimilarityPDF)
 
 Request Pdf download and returns the Pdf Id
 
@@ -432,8 +432,9 @@ public class Example {
     String xTurnitinIntegrationName = "myintegration"; // String | a human readable string representing the type of integration being used
     String xTurnitinIntegrationVersion = "v1.0.2"; // String | the version of the integration platform being used
     String id = "id_example"; // String | The Submission ID (returned upon a successful POST to /submissions) 
+    GenerateSimilarityPDF generateSimilarityPDF = new GenerateSimilarityPDF(); // GenerateSimilarityPDF | 
     try {
-      RequestPdfResponse result = apiInstance.requestSimilarityReportPdf(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id);
+      RequestPdfResponse result = apiInstance.requestSimilarityReportPdf(xTurnitinIntegrationName, xTurnitinIntegrationVersion, id, generateSimilarityPDF);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling SimilarityApi#requestSimilarityReportPdf");
@@ -453,6 +454,7 @@ public class Example {
 | **xTurnitinIntegrationName** | **String**| a human readable string representing the type of integration being used | |
 | **xTurnitinIntegrationVersion** | **String**| the version of the integration platform being used | |
 | **id** | **String**| The Submission ID (returned upon a successful POST to /submissions)  | |
+| **generateSimilarityPDF** | [**GenerateSimilarityPDF**](GenerateSimilarityPDF.md)|  | |
 
 ### Return type
 
@@ -464,7 +466,7 @@ public class Example {
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
